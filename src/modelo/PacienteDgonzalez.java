@@ -4,10 +4,27 @@
  */
 package modelo;
 
+import java.util.Date;
+
 /**
  *
  * @author David
  */
 public class PacienteDgonzalez {
+    private String dniDgonzalez;
+    private String nombreDgonzalez;
+    private String apellidosDgonzalez;
+    private Date fechaNacimientoDgonzalez;
+    private int telefonoDgonzalez;
+    private String emailDgonzalez;
+    private int cpDgonzalez;
+    private String sexoDgonzalez;
+    private String tabaquismoDgonzalez;
+    private String consumoalcoholDgonzalez;
+    private String antecedentesSaludDgonzalez;
+    private String datosSaludGeneralDgonzalez;
+    private Date fechaRegistroDgonzalez;
+    
+    
     
 }

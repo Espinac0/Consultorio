@@ -4,10 +4,17 @@
  */
 package modelo;
 
+import java.util.Date;
+
 /**
  *
  * @author David
  */
 public class CitaDgonzalez {
+    
+    String dniPacienteDgonzalez;
+    String nombreDgonzalez;
+    Date diaDgonzalez;
+    double horaDgonzalez;
     
 }

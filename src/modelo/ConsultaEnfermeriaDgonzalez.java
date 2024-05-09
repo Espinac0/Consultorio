@@ -10,10 +10,10 @@ import java.util.Date;
  *
  * @author David
  */
-public class ConsultaDgonzalez {
+public class ConsultaEnfermeriaDgonzalez {
     
-    private String dniPacienteDgonzalez;
-    private Date fechaConsultaDgonzalez;
+    String dniClienteDgonzalez;
+    private Date fechaConsulta;
     private String diagnosticoDgonzalez;
     private String tratamientoDgonzalez;
     private String observacionesDgonzalez;

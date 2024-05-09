@@ -10,4 +10,11 @@ package modelo;
  */
 public class PersonalDgonzalez {
     
+    private int numero_colegiadoDgonzalez;
+    private String nombreDgonzalez;
+    private String apellidosDgonzalez;
+    private int telefonoDgonzalez;
+    private String usuarioDgonzalez;
+    private String contrasenyaDgonzalez;
+    private String tipoDgonzalez;
 }

@@ -4,6 +4,9 @@
  */
 package consultorio;
 
+import vistas.LoginDgonzalez;
+import vistas.MenuPrincipalDgonzalez;
+
 /**
  *
  * @author David
@@ -14,7 +17,8 @@ public class Consultorio {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+    LoginDgonzalez l = new LoginDgonzalez();
+    l.setVisible(true);
     }
     
 }
