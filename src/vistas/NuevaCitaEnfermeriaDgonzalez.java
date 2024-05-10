@@ -8,12 +8,12 @@ package vistas;
  *
  * @author David
  */
-public class NuevaCitaDgonzalez extends javax.swing.JDialog {
+public class NuevaCitaEnfermeriaDgonzalez extends javax.swing.JDialog {
 
     /**
      * Creates new form NuevaCitaDgonzalez
      */
-    public NuevaCitaDgonzalez(java.awt.Frame parent, boolean modal) {
+    public NuevaCitaEnfermeriaDgonzalez(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -51,7 +51,7 @@ public class NuevaCitaDgonzalez extends javax.swing.JDialog {
         jLabel6.setBackground(new java.awt.Color(0, 0, 0));
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 153, 153));
-        jLabel6.setText("NUEVA CITA MÉDICA");
+        jLabel6.setText("NUEVA CITA ENFERMERÍA");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -202,20 +202,21 @@ public class NuevaCitaDgonzalez extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NuevaCitaDgonzalez.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NuevaCitaEnfermeriaDgonzalez.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NuevaCitaDgonzalez.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NuevaCitaEnfermeriaDgonzalez.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NuevaCitaDgonzalez.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NuevaCitaEnfermeriaDgonzalez.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NuevaCitaDgonzalez.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NuevaCitaEnfermeriaDgonzalez.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                NuevaCitaDgonzalez dialog = new NuevaCitaDgonzalez(new javax.swing.JFrame(), true);
+                NuevaCitaEnfermeriaDgonzalez dialog = new NuevaCitaEnfermeriaDgonzalez(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -235,16 +236,10 @@ public class NuevaCitaDgonzalez extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables

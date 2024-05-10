@@ -12,9 +12,9 @@ import java.util.Date;
  */
 public class CitaDgonzalez {
     
-    String dniPacienteDgonzalez;
-    String nombreDgonzalez;
-    Date diaDgonzalez;
-    double horaDgonzalez;
+    private String dniPacienteDgonzalez;
+    private String nombreDgonzalez;
+    private Date diaDgonzalez;
+    private double horaDgonzalez;
     
 }

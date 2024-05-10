@@ -97,7 +97,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="99" green="99" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="NUEVA CITA M&#xc9;DICA"/>
+            <Property name="text" type="java.lang.String" value="NUEVA CITA ENFERMER&#xcd;A"/>
           </Properties>
         </Component>
       </SubComponents>

@@ -12,7 +12,7 @@ import java.util.Date;
  */
 public class ConsultaEnfermeriaDgonzalez {
     
-    String dniClienteDgonzalez;
+    private String dniClienteDgonzalez;
     private Date fechaConsulta;
     private String diagnosticoDgonzalez;
     private String tratamientoDgonzalez;
