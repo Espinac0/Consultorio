@@ -5,6 +5,14 @@
 package vistas;
 
 import bbdd.ConexionDgonzalez;
+import static bbdd.ConexionDgonzalez.recuperarDatosUserLogado;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.swing.JOptionPane;
 
 /**
@@ -124,7 +132,19 @@ public class LoginDgonzalez extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-    accesoDgonzalez();
+        try {
+            accesoDgonzalez();
+        } catch (InvalidKeyException ex) {
+            Logger.getLogger(LoginDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(LoginDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalBlockSizeException ex) {
+            Logger.getLogger(LoginDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchPaddingException ex) {
+            Logger.getLogger(LoginDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (BadPaddingException ex) {
+            Logger.getLogger(LoginDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -173,14 +193,21 @@ public class LoginDgonzalez extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 
-public void accesoDgonzalez(){
+
+    
+    public static Object [] usuarioLogadoDgonzalez;
+    
+    
+public void accesoDgonzalez() throws InvalidKeyException, NoSuchAlgorithmException, IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException{
     String usDgonzalez = campoUsuario.getText();
     String passDgonzalez = new String (campoContrasenya.getPassword());
     
     ConexionDgonzalez.conectarDgonzalez();
     if (ConexionDgonzalez.accederDgonzalez(usDgonzalez, passDgonzalez)) {
+        usuarioLogadoDgonzalez = recuperarDatosUserLogado(usDgonzalez);
         MenuPrincipalDgonzalez vm = new MenuPrincipalDgonzalez();
         vm.setVisible(true);
+        
         ConexionDgonzalez.cerrarConexionDgonzalez();
     } else {
         JOptionPane.showMessageDialog(this, "Error de logado.");
@@ -188,5 +215,7 @@ public void accesoDgonzalez(){
         campoContrasenya.setText("");
     }
 }
+
+
 
 }

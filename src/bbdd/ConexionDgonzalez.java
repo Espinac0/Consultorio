@@ -5,12 +5,20 @@
 package bbdd;
 
 import com.mysql.jdbc.Connection;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableModel;
+import utilidades.EncriptadoDgonzalez;
 
 /**
  *
@@ -54,14 +62,46 @@ public class ConexionDgonzalez {
         }
     }
     
-    public static boolean accederDgonzalez(String user,String pass){
-        
+    public static boolean accederDgonzalez(String user,String pass) throws InvalidKeyException, NoSuchAlgorithmException, IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException{
+      try {
+            String consulta = "SELECT usuario, contrasenya FROM personal WHERE usuario=? AND contrasenya=?";
+
+            PreparedStatement pst = conn.prepareCall(consulta);
+            ResultSet rs;
+
+            pst.setString(1, user);
+            pst.setString(2, EncriptadoDgonzalez.encriptar(pass));
+
+            rs = pst.executeQuery();
+
+            return rs.next();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ConexionDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;  
     }
     
     public static String[] recuperarDatosUserLogado(String user) {
-        
+       try {
+        String[] datos = new String[3];
+        String consulta = "SELECT CONCAT(nombre, ' ', apellidos) AS nombre_completo, numero_colegiado, tipo FROM personal WHERE usuario=?";
+        PreparedStatement pst = conn.prepareCall(consulta);
+        pst.setString(1, user);
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            datos[0] = rs.getString("nombre_completo");
+            datos[1] = Integer.toString(rs.getInt("numero_colegiado"));
+            datos[2] = rs.getString("tipo");
+            return datos;
+        }
+    } catch (SQLException ex) {
+        Logger.getLogger(ConexionDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    return null;
     } 
-    
+    /*
     public static void recuperaCitasMedicasDgonzalez(DefaultTableModel modelo) {
         
     }
@@ -125,5 +165,5 @@ public class ConexionDgonzalez {
     public static boolean registrarPersonalDgonzalez(Personal p) {
         
     } 
-    a
+    */
 }

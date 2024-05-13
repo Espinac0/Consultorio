@@ -4,6 +4,8 @@
  */
 package vistas;
 
+import static bbdd.ConexionDgonzalez.recuperarDatosUserLogado;
+
 /**
  *
  * @author David
@@ -15,6 +17,9 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
      */
     public MenuPrincipalDgonzalez() {
         initComponents();
+    LabelFacultativo.setText("Facultativo: " + (LoginDgonzalez.usuarioLogadoDgonzalez[0]));     
+        
+        
     }
 
     /**
@@ -30,9 +35,9 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        LabelFecha = new javax.swing.JLabel();
+        LabelNumeroCol = new javax.swing.JLabel();
+        LabelFacultativo = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -44,7 +49,6 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1250, 750));
 
         jPanel2.setBackground(new java.awt.Color(0, 204, 204));
         jPanel2.setPreferredSize(new java.awt.Dimension(1275, 750));
@@ -52,11 +56,11 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/logo_good.png"))); // NOI18N
 
-        jLabel3.setText("Usuario");
+        LabelFecha.setText("Usuario");
 
-        jLabel4.setText("Usuario");
+        LabelNumeroCol.setText("Usuario");
 
-        jLabel5.setText("Usuario");
+        LabelFacultativo.setText("Usuario");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -66,12 +70,12 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(59, 59, 59)
-                        .addComponent(jLabel4))
+                        .addComponent(LabelNumeroCol))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))))
+                            .addComponent(LabelFecha, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(LabelFacultativo, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(70, 70, 70))
@@ -83,11 +87,11 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
+                        .addComponent(LabelFecha)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel5)
+                        .addComponent(LabelFacultativo)
                         .addGap(12, 12, 12)
-                        .addComponent(jLabel4)))
+                        .addComponent(LabelNumeroCol)))
                 .addGap(15, 15, 15))
         );
 
@@ -235,15 +239,15 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel LabelFacultativo;
+    private javax.swing.JLabel LabelFecha;
+    private javax.swing.JLabel LabelNumeroCol;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -252,4 +256,7 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
+
+   
+
 }
