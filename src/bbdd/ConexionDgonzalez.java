@@ -125,5 +125,5 @@ public class ConexionDgonzalez {
     public static boolean registrarPersonalDgonzalez(Personal p) {
         
     } 
-    
+    a
 }
