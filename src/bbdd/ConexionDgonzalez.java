@@ -11,6 +11,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.crypto.BadPaddingException;
@@ -101,15 +102,54 @@ public class ConexionDgonzalez {
     }
     return null;
     } 
-    /*
-    public static void recuperaCitasMedicasDgonzalez(DefaultTableModel modelo) {
-        
+    
+    public static void recuperaCitasMedicasDgonzalez(DefaultTableModel modelo) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
+       try {
+            String SSQL = "SELECT nombre as NOMBRE, dia as DIA, Hora as hora FROM citas WHERE dia = CURDATE()";
+            
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(SSQL);
+            
+           while (rs.next()) {
+                Object[] registro = new Object[3]; 
+                
+                registro[0] = EncriptadoDgonzalez.desencriptar(rs.getString("NOMBRE"));
+                registro[1] = rs.getString("DIA");
+                registro[2] = rs.getString("HORA");
+
+                modelo.addRow(registro);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConexionDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
+        } 
     }
     
     public static void recuperaCitasEnfermeriaDgonzalez(DefaultTableModel modelo) {
-        
+        try {
+            String SSQL = "SELECT nombre as NOMBRE, dia as DIA, Hora as hora FROM citas WHERE dia = CURDATE()";
+            
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(SSQL);
+            
+           while (rs.next()) {
+                Object[] registro = new Object[3]; 
+                
+                try {
+                    registro[0] = EncriptadoDgonzalez.desencriptar(rs.getString("NOMBRE"));
+                } catch (InvalidKeyException | NoSuchAlgorithmException | IllegalBlockSizeException | NoSuchPaddingException | BadPaddingException ex) {
+                    Logger.getLogger(ConexionDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                registro[1] = rs.getString("DIA");
+                registro[2] = rs.getString("HORA");
+
+                modelo.addRow(registro);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConexionDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
+        } 
     }
     
+    /*
     public static boolean registrarCitaMedicaDgonzalez(Cita c) {
         
     }

@@ -4,7 +4,16 @@
  */
 package vistas;
 
+import bbdd.ConexionDgonzalez;
 import static bbdd.ConexionDgonzalez.recuperarDatosUserLogado;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -15,20 +24,23 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
     /**
      * Creates new form MenuPrincipalDgonzalez
      */
-    public MenuPrincipalDgonzalez() {
+    public MenuPrincipalDgonzalez() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
         initComponents();
     String tipoUsuario = (String) (LoginDgonzalez.usuarioLogadoDgonzalez[2]);
     LabelFecha.setText(java.time.LocalDate.now().toString());
     LabelFacultativo.setText("Facultativo: " + (LoginDgonzalez.usuarioLogadoDgonzalez[0]));     
     LabelNumeroCol.setText("Nº de colegiado: " + (LoginDgonzalez.usuarioLogadoDgonzalez[1]));    
+    DefaultTableModel modelo = (DefaultTableModel) TablaPaciente.getModel();
     
     if (tipoUsuario.equals("MEDICO")){
            botonConsultas.setEnabled(true);
            botonPaciente.setEnabled(true);  
            LabelAgenciaCitas.setText("AGENDA MÉDICA");
+           ConexionDgonzalez.recuperaCitasMedicasDgonzalez(modelo);
        } else if (tipoUsuario.equals("ENFERMERIA")) {
            botonEnfermeria.setEnabled(true);
            LabelAgenciaCitas.setText("AGENDA ENFERMERÍA");
+           ConexionDgonzalez.recuperaCitasEnfermeriaDgonzalez(modelo);
        } else if (tipoUsuario.equals("ADMIN")) {
            botonPersonal.setEnabled(true);
        }
@@ -57,7 +69,7 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
         botonPersonal = new javax.swing.JButton();
         LabelAgenciaCitas = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        TablaPaciente = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -137,18 +149,15 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
         LabelAgenciaCitas.setForeground(new java.awt.Color(255, 255, 255));
         LabelAgenciaCitas.setText("AGENCIA DE CITAS MÉDICAS ");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        TablaPaciente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
                 "NOMBRE", "DIA", "HORA"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(TablaPaciente);
 
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/principal.png"))); // NOI18N
@@ -245,7 +254,19 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MenuPrincipalDgonzalez().setVisible(true);
+                try {
+                    new MenuPrincipalDgonzalez().setVisible(true);
+                } catch (InvalidKeyException ex) {
+                    Logger.getLogger(MenuPrincipalDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NoSuchAlgorithmException ex) {
+                    Logger.getLogger(MenuPrincipalDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NoSuchPaddingException ex) {
+                    Logger.getLogger(MenuPrincipalDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalBlockSizeException ex) {
+                    Logger.getLogger(MenuPrincipalDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (BadPaddingException ex) {
+                    Logger.getLogger(MenuPrincipalDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -255,6 +276,7 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
     private javax.swing.JLabel LabelFacultativo;
     private javax.swing.JLabel LabelFecha;
     private javax.swing.JLabel LabelNumeroCol;
+    private javax.swing.JTable TablaPaciente;
     private javax.swing.JButton botonConsultas;
     private javax.swing.JButton botonEnfermeria;
     private javax.swing.JButton botonPaciente;
@@ -266,7 +288,6 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
       
    public void ActivarCamposSegunTipoDgonzalez(){
