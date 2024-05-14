@@ -17,9 +17,21 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
      */
     public MenuPrincipalDgonzalez() {
         initComponents();
+    String tipoUsuario = (String) (LoginDgonzalez.usuarioLogadoDgonzalez[2]);
+    LabelFecha.setText(java.time.LocalDate.now().toString());
     LabelFacultativo.setText("Facultativo: " + (LoginDgonzalez.usuarioLogadoDgonzalez[0]));     
-        
-        
+    LabelNumeroCol.setText("Nº de colegiado: " + (LoginDgonzalez.usuarioLogadoDgonzalez[1]));    
+    
+    if (tipoUsuario.equals("MEDICO")){
+           botonConsultas.setEnabled(true);
+           botonPaciente.setEnabled(true);  
+           LabelAgenciaCitas.setText("AGENDA MÉDICA");
+       } else if (tipoUsuario.equals("ENFERMERIA")) {
+           botonEnfermeria.setEnabled(true);
+           LabelAgenciaCitas.setText("AGENDA ENFERMERÍA");
+       } else if (tipoUsuario.equals("ADMIN")) {
+           botonPersonal.setEnabled(true);
+       }
     }
 
     /**
@@ -39,11 +51,11 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
         LabelNumeroCol = new javax.swing.JLabel();
         LabelFacultativo = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
+        botonConsultas = new javax.swing.JButton();
+        botonPaciente = new javax.swing.JButton();
+        botonEnfermeria = new javax.swing.JButton();
+        botonPersonal = new javax.swing.JButton();
+        LabelAgenciaCitas = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
@@ -56,26 +68,22 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/logo_good.png"))); // NOI18N
 
-        LabelFecha.setText("Usuario");
+        LabelFecha.setText("Fecha");
 
-        LabelNumeroCol.setText("Usuario");
+        LabelNumeroCol.setText("n colegiado");
 
-        LabelFacultativo.setText("Usuario");
+        LabelFacultativo.setText("Facultativo");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(59, 59, 59)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(59, 59, 59)
-                        .addComponent(LabelNumeroCol))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(LabelFecha, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(LabelFacultativo, javax.swing.GroupLayout.Alignment.TRAILING))))
+                    .addComponent(LabelNumeroCol)
+                    .addComponent(LabelFecha)
+                    .addComponent(LabelFacultativo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(70, 70, 70))
@@ -90,7 +98,7 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
                         .addComponent(LabelFecha)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(LabelFacultativo)
-                        .addGap(12, 12, 12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(LabelNumeroCol)))
                 .addGap(15, 15, 15))
         );
@@ -98,32 +106,36 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
         jPanel4.setOpaque(false);
         jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 70, 0));
 
-        jButton1.setBackground(new java.awt.Color(0, 153, 255));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("CONSULTAS");
-        jButton1.setPreferredSize(new java.awt.Dimension(225, 135));
-        jPanel4.add(jButton1);
+        botonConsultas.setBackground(new java.awt.Color(0, 153, 255));
+        botonConsultas.setForeground(new java.awt.Color(255, 255, 255));
+        botonConsultas.setText("CONSULTAS");
+        botonConsultas.setEnabled(false);
+        botonConsultas.setPreferredSize(new java.awt.Dimension(225, 135));
+        jPanel4.add(botonConsultas);
 
-        jButton2.setBackground(new java.awt.Color(0, 153, 255));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("PACIENTE");
-        jButton2.setPreferredSize(new java.awt.Dimension(225, 135));
-        jPanel4.add(jButton2);
+        botonPaciente.setBackground(new java.awt.Color(0, 153, 255));
+        botonPaciente.setForeground(new java.awt.Color(255, 255, 255));
+        botonPaciente.setText("PACIENTE");
+        botonPaciente.setEnabled(false);
+        botonPaciente.setPreferredSize(new java.awt.Dimension(225, 135));
+        jPanel4.add(botonPaciente);
 
-        jButton3.setBackground(new java.awt.Color(0, 153, 255));
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("ENFERMERIA");
-        jButton3.setPreferredSize(new java.awt.Dimension(225, 135));
-        jPanel4.add(jButton3);
+        botonEnfermeria.setBackground(new java.awt.Color(0, 153, 255));
+        botonEnfermeria.setForeground(new java.awt.Color(255, 255, 255));
+        botonEnfermeria.setText("ENFERMERIA");
+        botonEnfermeria.setEnabled(false);
+        botonEnfermeria.setPreferredSize(new java.awt.Dimension(225, 135));
+        jPanel4.add(botonEnfermeria);
 
-        jButton4.setBackground(new java.awt.Color(0, 153, 255));
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setText("PERSONAL MEDICO");
-        jButton4.setPreferredSize(new java.awt.Dimension(225, 135));
-        jPanel4.add(jButton4);
+        botonPersonal.setBackground(new java.awt.Color(0, 153, 255));
+        botonPersonal.setForeground(new java.awt.Color(255, 255, 255));
+        botonPersonal.setText("PERSONAL MEDICO");
+        botonPersonal.setEnabled(false);
+        botonPersonal.setPreferredSize(new java.awt.Dimension(225, 135));
+        jPanel4.add(botonPersonal);
 
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("AGENCIA DE CITAS MEDICAS ");
+        LabelAgenciaCitas.setForeground(new java.awt.Color(255, 255, 255));
+        LabelAgenciaCitas.setText("AGENCIA DE CITAS MÉDICAS ");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -153,7 +165,7 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(137, 137, 137)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
+                    .addComponent(LabelAgenciaCitas)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
@@ -168,7 +180,7 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(58, 58, 58)
-                        .addComponent(jLabel6)
+                        .addComponent(LabelAgenciaCitas)
                         .addGap(31, 31, 31)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -239,16 +251,16 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel LabelAgenciaCitas;
     private javax.swing.JLabel LabelFacultativo;
     private javax.swing.JLabel LabelFecha;
     private javax.swing.JLabel LabelNumeroCol;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton botonConsultas;
+    private javax.swing.JButton botonEnfermeria;
+    private javax.swing.JButton botonPaciente;
+    private javax.swing.JButton botonPersonal;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -256,7 +268,9 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
-
-   
-
+      
+   public void ActivarCamposSegunTipoDgonzalez(){
+       String tipoUsuario = (String) (LoginDgonzalez.usuarioLogadoDgonzalez[2]);
+       
+   }
 }
