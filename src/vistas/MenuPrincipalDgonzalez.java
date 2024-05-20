@@ -123,6 +123,11 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
         botonConsultas.setText("CONSULTAS");
         botonConsultas.setEnabled(false);
         botonConsultas.setPreferredSize(new java.awt.Dimension(225, 135));
+        botonConsultas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonConsultasActionPerformed(evt);
+            }
+        });
         jPanel4.add(botonConsultas);
 
         botonPaciente.setBackground(new java.awt.Color(0, 153, 255));
@@ -223,6 +228,11 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void botonConsultasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonConsultasActionPerformed
+    MedicoDgonzalez md = new MedicoDgonzalez();
+    md.setVisible(true);
+    }//GEN-LAST:event_botonConsultasActionPerformed
 
     /**
      * @param args the command line arguments

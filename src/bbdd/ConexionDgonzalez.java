@@ -19,6 +19,7 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableModel;
+import modelo.PacienteDgonzalez;
 import utilidades.EncriptadoDgonzalez;
 
 /**
@@ -157,15 +158,47 @@ public class ConexionDgonzalez {
     public static boolean registrarCitaEnfermeriaDgonzalez(Cita c) {
         
     }
+    */
+    
     
     public static boolean compruebaDniDgonzalez(String dni) {
-        
+    String SSQL = "SELECT dni FROM paciente WHERE dni =?";
+
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        try {
+            pst = conn.prepareStatement(SSQL);
+
+            pst.setString(1, dni);
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConexionDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
     
-    public static Paciente recuperaDatosPacienteDgonzalez(String dni){
-        
+    public static PacienteDgonzalez recuperaDatosPacienteDgonzalez(String dni) throws SQLException {
+    String sql = "SELECT nombre , apellidos , telefono , email FROM paciente WHERE DNI = ?";
+    PreparedStatement stmt = conn.prepareStatement(sql);
+    stmt.setString(1, dni);
+
+    ResultSet rs = stmt.executeQuery();
+
+    if (rs.next()) {
+        String nombre = rs.getString("nombre");
+        String apellidos = rs.getString("apellidos");
+        int telefono = rs.getInt("telefono");
+        String email = rs.getString("email");
+
+        return new PacienteDgonzalez(dni, nombre, apellidos, null, telefono, email, 0, null, null, null, null, null, null);
     }
+    return null;
+}
     
+    /*
     public static void cargaTablaConsultasMedicasDgonzalez(DefaultTableModel modelo,String dni) {
         
     }
