@@ -226,8 +226,10 @@ public void accesoDgonzalez() throws InvalidKeyException, NoSuchAlgorithmExcepti
         vm.setVisible(true);
         
         ConexionDgonzalez.cerrarConexionDgonzalez();
+        this.dispose();
     } else {
-        JOptionPane.showMessageDialog(this, "Error de logado.");
+        JOptionPane.showMessageDialog(this, "Usuario o contraseña\n" +
+        "erróneos. Inténtelo de nuevo.");
         campoUsuario.setText("");
         campoContrasenya.setText("");
     }

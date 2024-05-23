@@ -1,20 +1,36 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package vistas;
 
+import bbdd.ConexionDgonzalez;
+import java.awt.Insets;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.table.DefaultTableModel;
+import modelo.PacienteDgonzalez;
+import utilidades.EncriptadoDgonzalez;
+import utilidades.UtilidadesDgonzalez;
 /**
  *
  * @author David
  */
-public class EnfermeriaDgonzalez extends javax.swing.JDialog {
-
+public class EnfermeriaDgonzalez extends javax.swing.JFrame {
+    
+    public static String DniPacienteEnfermeriaDgonzalez;
     /**
-     * Creates new form NuevaConsultaMedica
+     * Creates new form EnfermeriaaDgonzalez
      */
-    public EnfermeriaDgonzalez(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public EnfermeriaDgonzalez() {
         initComponents();
     }
 
@@ -32,26 +48,26 @@ public class EnfermeriaDgonzalez extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        campoDni = new javax.swing.JTextField();
+        botonBuscaPac = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        campoNombre = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        campoApellidos = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        campoTelefono = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        campoEmail = new javax.swing.JTextField();
+        botonInforme = new javax.swing.JButton();
+        botonCita = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton4 = new javax.swing.JButton();
+        tablaConsulta = new javax.swing.JTable();
+        botonTabla = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(1175, 650));
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -93,9 +109,14 @@ public class EnfermeriaDgonzalez extends javax.swing.JDialog {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("DNI PACIENTE");
 
-        jButton1.setBackground(new java.awt.Color(0, 0, 0));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("BUSCAR PACIENTE");
+        botonBuscaPac.setBackground(new java.awt.Color(0, 0, 0));
+        botonBuscaPac.setForeground(new java.awt.Color(255, 255, 255));
+        botonBuscaPac.setText("BUSCAR PACIENTE");
+        botonBuscaPac.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonBuscaPacActionPerformed(evt);
+            }
+        });
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "PACIENTE", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(255, 255, 255))); // NOI18N
         jPanel3.setOpaque(false);
@@ -103,28 +124,38 @@ public class EnfermeriaDgonzalez extends javax.swing.JDialog {
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Nombre");
 
-        jTextField2.setEnabled(false);
+        campoNombre.setEnabled(false);
 
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Apellidos");
 
-        jTextField3.setEnabled(false);
+        campoApellidos.setEnabled(false);
 
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Telefono");
 
-        jTextField4.setEnabled(false);
+        campoTelefono.setEnabled(false);
 
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Email");
 
-        jTextField5.setEnabled(false);
+        campoEmail.setEnabled(false);
 
-        jButton2.setText("Nuevo informe");
-        jButton2.setEnabled(false);
+        botonInforme.setText("Nuevo informe");
+        botonInforme.setEnabled(false);
+        botonInforme.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonInformeActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Nuevo Cita");
-        jButton3.setEnabled(false);
+        botonCita.setText("Nuevo Cita");
+        botonCita.setEnabled(false);
+        botonCita.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCitaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -134,26 +165,26 @@ public class EnfermeriaDgonzalez extends javax.swing.JDialog {
                 .addGap(58, 58, 58)
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(campoApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27)
                         .addComponent(jLabel9)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(campoTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel10)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(campoEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
-                        .addComponent(jButton2)
+                        .addComponent(botonInforme)
                         .addGap(118, 118, 118)
-                        .addComponent(jButton3)))
+                        .addComponent(botonCita)))
                 .addContainerGap(60, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -162,38 +193,42 @@ public class EnfermeriaDgonzalez extends javax.swing.JDialog {
                 .addGap(22, 22, 22)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(campoApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(campoTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(campoEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(botonInforme)
+                    .addComponent(botonCita))
                 .addGap(16, 16, 16))
         );
 
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setText("HISTORIAL DE CONSULTAS MÉDICAS");
+        jLabel11.setText("HISTORIAL DE CONSULTAS ENFERMERIA");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaConsulta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "FECHA", "MÁXIMA", "MÍNIMA", "GLUCOSA", "PESO"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tablaConsulta);
 
-        jButton4.setText("Actualizar Tabla");
-        jButton4.setEnabled(false);
+        botonTabla.setText("Actualizar Tabla");
+        botonTabla.setEnabled(false);
+        botonTabla.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonTablaActionPerformed(evt);
+            }
+        });
+
+        jTextField1.setText("03447758N");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -205,9 +240,9 @@ public class EnfermeriaDgonzalez extends javax.swing.JDialog {
                         .addGap(47, 47, 47)
                         .addComponent(jLabel6)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(campoDni, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(36, 36, 36)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(botonBuscaPac, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(31, 31, 31)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -218,17 +253,22 @@ public class EnfermeriaDgonzalez extends javax.swing.JDialog {
                             .addComponent(jScrollPane1)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(513, 513, 513)
-                        .addComponent(jButton4)))
-                .addContainerGap(49, Short.MAX_VALUE))
+                        .addComponent(botonTabla))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(161, 161, 161)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(51, 51, 51)
+                .addGap(17, 17, 17)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(campoDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonBuscaPac))
                 .addGap(29, 29, 29)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -236,8 +276,8 @@ public class EnfermeriaDgonzalez extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton4)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addComponent(botonTabla)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -256,7 +296,42 @@ public class EnfermeriaDgonzalez extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void botonBuscaPacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscaPacActionPerformed
+    try {
+            comprobarDniDgonzalez();
+            DefaultTableModel modelo = (DefaultTableModel) tablaConsulta.getModel();
+        ConexionDgonzalez.conectarDgonzalez();
+        ConexionDgonzalez.cargaTablaConsultasEnfermeriaDgonzalez(modelo,EncriptadoDgonzalez.encriptarDgonzalez(campoDni.getText()));
+        ConexionDgonzalez.cerrarConexionDgonzalez();
+        } catch (InvalidKeyException | NoSuchAlgorithmException | IllegalBlockSizeException | NoSuchPaddingException | BadPaddingException ex) {
+            Logger.getLogger(MedicoDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_botonBuscaPacActionPerformed
+
+    private void botonInformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonInformeActionPerformed
+        NuevaConsultaEnfermeriaDgonzalez nce = new NuevaConsultaEnfermeriaDgonzalez();
+        nce.setVisible(true);
+    }//GEN-LAST:event_botonInformeActionPerformed
+
+    private void botonCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCitaActionPerformed
+    NuevaCitaEnfermeriaDgonzalez nc = new NuevaCitaEnfermeriaDgonzalez(this,true);
+    nc.setVisible(true);
+    }//GEN-LAST:event_botonCitaActionPerformed
+
+    private void botonTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonTablaActionPerformed
+    try {
+            DefaultTableModel modelo = (DefaultTableModel) tablaConsulta.getModel();
+            modelo.setRowCount(0);
+            ConexionDgonzalez.conectarDgonzalez();
+            ConexionDgonzalez.cargaTablaConsultasEnfermeriaDgonzalez(modelo,EncriptadoDgonzalez.encriptarDgonzalez(campoDni.getText()));
+            ConexionDgonzalez.cerrarConexionDgonzalez();
+        } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException ex) {
+            Logger.getLogger(MedicoDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_botonTablaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -285,41 +360,25 @@ public class EnfermeriaDgonzalez extends javax.swing.JDialog {
         }
         //</editor-fold>
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
-        /* Create and display the dialog */
+        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                EnfermeriaDgonzalez dialog = new EnfermeriaDgonzalez(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+                new EnfermeriaDgonzalez().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton botonBuscaPac;
+    private javax.swing.JButton botonCita;
+    private javax.swing.JButton botonInforme;
+    private javax.swing.JButton botonTabla;
+    private javax.swing.JTextField campoApellidos;
+    private javax.swing.JTextField campoDni;
+    private javax.swing.JTextField campoEmail;
+    private javax.swing.JTextField campoNombre;
+    private javax.swing.JTextField campoTelefono;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -332,11 +391,48 @@ public class EnfermeriaDgonzalez extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTable tablaConsulta;
     // End of variables declaration//GEN-END:variables
+public void comprobarDniDgonzalez() throws InvalidKeyException, NoSuchAlgorithmException, IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException{
+    {
+        String valorDNIDgonzalez = campoDni.getText();
+        String valorDNIEncripDgonzalez = EncriptadoDgonzalez.encriptarDgonzalez(valorDNIDgonzalez);
+        
+        if (UtilidadesDgonzalez.formatoDniCorrectoDgonzalez(campoDni) && UtilidadesDgonzalez.letraDniCorrectaDgonzalez(campoDni)) {
+            ConexionDgonzalez.conectarDgonzalez();
+            if (ConexionDgonzalez.compruebaDniDgonzalez(valorDNIEncripDgonzalez)) {
+                PacienteDgonzalez paciente = ConexionDgonzalez.recuperaDatosPacienteDgonzalez(valorDNIEncripDgonzalez);
+                campoNombre.setText(EncriptadoDgonzalez.desencriptarDgonzalez(paciente.getNombreDgonzalez()));
+                campoApellidos.setText(EncriptadoDgonzalez.desencriptarDgonzalez(paciente.getApellidosDgonzalez()));
+                campoTelefono.setText(String.valueOf(paciente.getTelefonoDgonzalez()));
+                campoEmail.setText(paciente.getEmailDgonzalez());
+                ConexionDgonzalez.cerrarConexionDgonzalez();
+                campoDni.setEnabled(false);
+                botonInforme.setEnabled(true);
+                botonCita.setEnabled(true);
+                botonTabla.setEnabled(true);
+                DniPacienteEnfermeriaDgonzalez = campoDni.getText();
+            } else {
+            // Si no esta registrado el DNI.
+            JOptionPane.showMessageDialog(this, "No existe paciente con este DNI\n" +
+            "a continuación se abrira la ventana para crearlo.");
+            PacientesDgonzalezz np = new PacientesDgonzalezz(this, true);
+            np.setVisible(true);
+            
+            }
+        } else {
+            // Alertas de lo que va mal
+            ConexionDgonzalez.conectarDgonzalez();
+            if (!UtilidadesDgonzalez.formatoDniCorrectoDgonzalez(campoDni)) {
+                UtilidadesDgonzalez.lanzaAlertaDniDgonzalez(null, campoDni);
+                ConexionDgonzalez.cerrarConexionDgonzalez();
+            } else {
+                UtilidadesDgonzalez.lanzaAlertaLetraDniDgonzalez(null, campoDni);
+                ConexionDgonzalez.cerrarConexionDgonzalez();
+            }
+        }
+    }
+}
+
 }

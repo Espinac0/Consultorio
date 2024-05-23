@@ -4,6 +4,21 @@
  */
 package vistas;
 
+import bbdd.ConexionDgonzalez;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.swing.JOptionPane;
+import modelo.ConsultaDgonzalez;
+import utilidades.EncriptadoDgonzalez;
+import utilidades.UtilidadesDgonzalez;
+import static vistas.MedicoDgonzalez.DniPacienteDgonzalez;
+
 /**
  *
  * @author David
@@ -15,6 +30,8 @@ public class NuevaConsultaMedicoDgonzalez extends javax.swing.JFrame {
      */
     public NuevaConsultaMedicoDgonzalez() {
         initComponents();
+        campoDni.setText(DniPacienteDgonzalez);
+
     }
 
     /**
@@ -31,20 +48,20 @@ public class NuevaConsultaMedicoDgonzalez extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        campoDni = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        campoDiagnostico = new javax.swing.JTextArea();
         jLabel9 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        campoTratamiento = new javax.swing.JTextArea();
         jLabel10 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea3 = new javax.swing.JTextArea();
+        campoObservacion = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -85,28 +102,36 @@ public class NuevaConsultaMedicoDgonzalez extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("DNI PACIENTE");
 
-        jTextField1.setEnabled(false);
+        campoDni.setEnabled(false);
+        campoDni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoDniActionPerformed(evt);
+            }
+        });
 
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Diagnóstico");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        campoDiagnostico.setColumns(20);
+        campoDiagnostico.setRows(5);
+        campoDiagnostico.setName("Diagnóstico"); // NOI18N
+        jScrollPane1.setViewportView(campoDiagnostico);
 
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Tratamiento");
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane2.setViewportView(jTextArea2);
+        campoTratamiento.setColumns(20);
+        campoTratamiento.setRows(5);
+        campoTratamiento.setName("Tratamiento"); // NOI18N
+        jScrollPane2.setViewportView(campoTratamiento);
 
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Observaciones");
 
-        jTextArea3.setColumns(20);
-        jTextArea3.setRows(5);
-        jScrollPane3.setViewportView(jTextArea3);
+        campoObservacion.setColumns(20);
+        campoObservacion.setRows(5);
+        campoObservacion.setName("Observaciones"); // NOI18N
+        jScrollPane3.setViewportView(campoObservacion);
 
         jButton1.setBackground(new java.awt.Color(0, 102, 102));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
@@ -142,7 +167,7 @@ public class NuevaConsultaMedicoDgonzalez extends javax.swing.JFrame {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(campoDni, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -157,7 +182,7 @@ public class NuevaConsultaMedicoDgonzalez extends javax.swing.JFrame {
                 .addGap(32, 32, 32)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(campoDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel8)
                 .addGap(18, 18, 18)
@@ -193,15 +218,20 @@ public class NuevaConsultaMedicoDgonzalez extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        registrarconsultaDgonzalez();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void campoDniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoDniActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_campoDniActionPerformed
 
     /**
      * @param args the command line arguments
@@ -242,6 +272,10 @@ public class NuevaConsultaMedicoDgonzalez extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea campoDiagnostico;
+    private javax.swing.JTextField campoDni;
+    private javax.swing.JTextArea campoObservacion;
+    private javax.swing.JTextArea campoTratamiento;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel10;
@@ -255,9 +289,46 @@ public class NuevaConsultaMedicoDgonzalez extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextArea jTextArea3;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
+
+    String dniDgonzalez, diagDgonzalez, trataDgonzalez, obserDgonzalez;
+    Date fechaDgonzalez;
+    int numerofacDgonzalez;
+
+    public void registrarconsultaDgonzalez() {
+        if (UtilidadesDgonzalez.compruebaTextAreaVacioDgonzalez(campoDiagnostico)) {
+            UtilidadesDgonzalez.lanzaAlertaTextAreaVacioDgonzalez(campoDiagnostico);
+        } else if (UtilidadesDgonzalez.compruebaTextAreaVacioDgonzalez(campoTratamiento)) {
+            UtilidadesDgonzalez.lanzaAlertaTextAreaVacioDgonzalez(campoTratamiento);
+        } else if (UtilidadesDgonzalez.compruebaTextAreaVacioDgonzalez(campoObservacion)) {
+            UtilidadesDgonzalez.lanzaAlertaTextAreaVacioDgonzalez(campoObservacion);
+        } else {
+            try {
+                //aqui es si estan los campos rellenados
+                dniDgonzalez = EncriptadoDgonzalez.encriptarDgonzalez(campoDni.getText());
+            } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException ex) {
+                Logger.getLogger(NuevaConsultaMedicoDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            diagDgonzalez = campoDiagnostico.getText();
+            trataDgonzalez = campoTratamiento.getText();
+            obserDgonzalez = campoObservacion.getText();
+            fechaDgonzalez = new Date();
+            numerofacDgonzalez = Integer.parseInt((String) LoginDgonzalez.usuarioLogadoDgonzalez[1]);
+
+            ConsultaDgonzalez c = new ConsultaDgonzalez(dniDgonzalez, fechaDgonzalez, diagDgonzalez, trataDgonzalez, obserDgonzalez, numerofacDgonzalez);
+
+            ConexionDgonzalez.conectarDgonzalez();
+
+            if (ConexionDgonzalez.registrarConsultaMedicaDgonzalez(c)) {
+                ConexionDgonzalez.cerrarConexionDgonzalez();
+                JOptionPane.showMessageDialog(this, "Error en la acción de registro. Inténtelo más tarde o póngase\n"
+                        + "en contacto con el administrador del sistema?");
+            } else {
+                JOptionPane.showMessageDialog(this, "Registro correcto");
+                this.dispose();
+            }
+        }
+
+    }
+
 }

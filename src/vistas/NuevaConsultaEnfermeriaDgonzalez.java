@@ -4,6 +4,23 @@
  */
 package vistas;
 
+import bbdd.ConexionDgonzalez;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.swing.JOptionPane;
+import modelo.ConsultaDgonzalez;
+import modelo.ConsultaEnfermeriaDgonzalez;
+import utilidades.EncriptadoDgonzalez;
+import utilidades.UtilidadesDgonzalez;
+import static vistas.EnfermeriaDgonzalez.DniPacienteEnfermeriaDgonzalez;
+import static vistas.MedicoDgonzalez.DniPacienteDgonzalez;
+
 /**
  *
  * @author David
@@ -15,6 +32,7 @@ public class NuevaConsultaEnfermeriaDgonzalez extends javax.swing.JFrame {
      */
     public NuevaConsultaEnfermeriaDgonzalez() {
         initComponents();
+        campoDni.setText(DniPacienteEnfermeriaDgonzalez);
     }
 
     /**
@@ -32,20 +50,20 @@ public class NuevaConsultaEnfermeriaDgonzalez extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        campoDni = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        campoMaxima = new javax.swing.JTextField();
+        campoMinima = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jTextField4 = new javax.swing.JTextField();
+        campoGlucemia = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        campoPeso = new javax.swing.JTextField();
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("TENSIÓN"));
         jPanel5.setOpaque(false);
@@ -71,7 +89,7 @@ public class NuevaConsultaEnfermeriaDgonzalez extends javax.swing.JFrame {
         jLabel6.setBackground(new java.awt.Color(0, 0, 0));
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 153, 153));
-        jLabel6.setText("NUEVO INFORME MÉDICO");
+        jLabel6.setText("NUEVO INFORME ENFERMERIA");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -102,7 +120,7 @@ public class NuevaConsultaEnfermeriaDgonzalez extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("DNI PACIENTE");
 
-        jTextField1.setEnabled(false);
+        campoDni.setEnabled(false);
 
         jButton1.setBackground(new java.awt.Color(0, 102, 102));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
@@ -128,6 +146,10 @@ public class NuevaConsultaEnfermeriaDgonzalez extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("MAXIMA");
 
+        campoMaxima.setName("maxima"); // NOI18N
+
+        campoMinima.setName("minima"); // NOI18N
+
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("MINIMA");
 
@@ -142,13 +164,13 @@ public class NuevaConsultaEnfermeriaDgonzalez extends javax.swing.JFrame {
                         .addComponent(jLabel8))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(84, 84, 84)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(campoMaxima, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 204, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(16, 16, 16)
                         .addComponent(jLabel9))
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(campoMinima, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(90, 90, 90))
         );
         jPanel1Layout.setVerticalGroup(
@@ -159,16 +181,18 @@ public class NuevaConsultaEnfermeriaDgonzalez extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(campoMaxima, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(campoMinima, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "GLUCEMIA", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(255, 255, 255))); // NOI18N
         jPanel2.setOpaque(false);
+
+        campoGlucemia.setName("glucosa"); // NOI18N
 
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Nivel de glucosa");
@@ -184,7 +208,7 @@ public class NuevaConsultaEnfermeriaDgonzalez extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addGap(230, 230, 230)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(campoGlucemia, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(252, Short.MAX_VALUE)))
         );
         jPanel2Layout.setVerticalGroup(
@@ -196,7 +220,7 @@ public class NuevaConsultaEnfermeriaDgonzalez extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addGap(43, 43, 43)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(campoGlucemia, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(16, Short.MAX_VALUE)))
         );
 
@@ -205,6 +229,8 @@ public class NuevaConsultaEnfermeriaDgonzalez extends javax.swing.JFrame {
 
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Peso");
+
+        campoPeso.setName("peso"); // NOI18N
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -217,7 +243,7 @@ public class NuevaConsultaEnfermeriaDgonzalez extends javax.swing.JFrame {
                         .addComponent(jLabel11))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(229, 229, 229)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(campoPeso, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
@@ -226,7 +252,7 @@ public class NuevaConsultaEnfermeriaDgonzalez extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(campoPeso, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(33, Short.MAX_VALUE))
         );
 
@@ -249,7 +275,7 @@ public class NuevaConsultaEnfermeriaDgonzalez extends javax.swing.JFrame {
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel7)
                                 .addGap(18, 18, 18)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(campoDni, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(77, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -263,7 +289,7 @@ public class NuevaConsultaEnfermeriaDgonzalez extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(campoDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -293,6 +319,7 @@ public class NuevaConsultaEnfermeriaDgonzalez extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -300,7 +327,7 @@ public class NuevaConsultaEnfermeriaDgonzalez extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+    registrarconsultaDgonzalez();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -346,6 +373,11 @@ public class NuevaConsultaEnfermeriaDgonzalez extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField campoDni;
+    private javax.swing.JTextField campoGlucemia;
+    private javax.swing.JTextField campoMaxima;
+    private javax.swing.JTextField campoMinima;
+    private javax.swing.JTextField campoPeso;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel10;
@@ -361,10 +393,59 @@ public class NuevaConsultaEnfermeriaDgonzalez extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     // End of variables declaration//GEN-END:variables
+
+    String dniDgonzalez;
+    Date fechaDgonzalez;
+    double minDgonzalez , maxDgonzalez;
+    int glucDgonzalez;
+    double pesDgonzalez;
+    int numerofacDgonzalez;
+
+    public void registrarconsultaDgonzalez() {
+        if (UtilidadesDgonzalez.compruebaVacioDgonzalez(campoMaxima)) {
+            UtilidadesDgonzalez.lanzaAlertaVacioDgonzalez(campoMaxima);
+        } else if (!UtilidadesDgonzalez.doubleCorrectoDgonzalez(campoMaxima)) {
+            UtilidadesDgonzalez.lanzaAlertaDoubleDgonzalez(campoMaxima);
+        } else if (UtilidadesDgonzalez.compruebaVacioDgonzalez(campoMinima)) {
+            UtilidadesDgonzalez.lanzaAlertaVacioDgonzalez(campoMinima);
+        } else if (!UtilidadesDgonzalez.doubleCorrectoDgonzalez(campoMinima)) {
+            UtilidadesDgonzalez.lanzaAlertaDoubleDgonzalez(campoMinima);
+        } else if (UtilidadesDgonzalez.compruebaVacioDgonzalez(campoGlucemia)) {
+            UtilidadesDgonzalez.lanzaAlertaVacioDgonzalez(campoGlucemia);
+        } else if (!UtilidadesDgonzalez.enteroCorrectoDgonzalez(campoGlucemia)) {
+            UtilidadesDgonzalez.LanzaAlertaEnteroDgonzalez(campoGlucemia);
+        }else if (UtilidadesDgonzalez.compruebaVacioDgonzalez(campoPeso)) {
+            UtilidadesDgonzalez.lanzaAlertaVacioDgonzalez(campoPeso);
+        }  else if (!UtilidadesDgonzalez.doubleCorrectoDgonzalez(campoPeso)) {
+            UtilidadesDgonzalez.lanzaAlertaDoubleDgonzalez(campoPeso);
+        } else {
+            try {
+                //aqui es si estan los campos rellenados
+                dniDgonzalez = EncriptadoDgonzalez.encriptarDgonzalez(campoDni.getText());
+            } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException ex) {
+                Logger.getLogger(NuevaConsultaMedicoDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            minDgonzalez = Double.parseDouble(campoMinima.getText());
+            maxDgonzalez = Double.parseDouble(campoMaxima.getText());
+            glucDgonzalez = Integer.parseInt(campoGlucemia.getText());
+            pesDgonzalez = Double.parseDouble(campoPeso.getText());
+            fechaDgonzalez = new Date();
+            numerofacDgonzalez = Integer.parseInt((String) LoginDgonzalez.usuarioLogadoDgonzalez[1]);
+
+            ConsultaEnfermeriaDgonzalez ce = new ConsultaEnfermeriaDgonzalez(dniDgonzalez, fechaDgonzalez, maxDgonzalez, minDgonzalez, glucDgonzalez, pesDgonzalez, numerofacDgonzalez);
+
+            ConexionDgonzalez.conectarDgonzalez();
+
+            if (ConexionDgonzalez.registrarConsultaEnfermeriaDgonzalez(ce)) {
+                ConexionDgonzalez.cerrarConexionDgonzalez();
+                JOptionPane.showMessageDialog(this, "Error en la acción de registro. Inténtelo más tarde o póngase\n"
+                        + "en contacto con el administrador del sistema?");
+            } else {
+                JOptionPane.showMessageDialog(this, "Registro correcto");
+                this.dispose();
+            }
+        }
+
+    }
 }

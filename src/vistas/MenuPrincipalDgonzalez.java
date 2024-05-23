@@ -142,6 +142,11 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
         botonEnfermeria.setText("ENFERMERIA");
         botonEnfermeria.setEnabled(false);
         botonEnfermeria.setPreferredSize(new java.awt.Dimension(225, 135));
+        botonEnfermeria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEnfermeriaActionPerformed(evt);
+            }
+        });
         jPanel4.add(botonEnfermeria);
 
         botonPersonal.setBackground(new java.awt.Color(0, 153, 255));
@@ -233,6 +238,11 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
     MedicoDgonzalez md = new MedicoDgonzalez();
     md.setVisible(true);
     }//GEN-LAST:event_botonConsultasActionPerformed
+
+    private void botonEnfermeriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEnfermeriaActionPerformed
+    EnfermeriaDgonzalez ed = new EnfermeriaDgonzalez();
+    ed.setVisible(true);
+    }//GEN-LAST:event_botonEnfermeriaActionPerformed
 
     /**
      * @param args the command line arguments

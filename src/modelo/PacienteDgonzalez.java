@@ -41,6 +41,15 @@ public class PacienteDgonzalez {
         this.fechaRegistroDgonzalez = fechaRegistroDgonzalez;
     }
 
+    public PacienteDgonzalez(String nombreDgonzalez, String apellidosDgonzalez, int telefonoDgonzalez, String emailDgonzalez) {
+        this.nombreDgonzalez = nombreDgonzalez;
+        this.apellidosDgonzalez = apellidosDgonzalez;
+        this.telefonoDgonzalez = telefonoDgonzalez;
+        this.emailDgonzalez = emailDgonzalez;
+    }
+
+    
+    
     public String getDniDgonzalez() {
         return dniDgonzalez;
     }

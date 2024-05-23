@@ -21,7 +21,7 @@ import org.apache.commons.codec.binary.Base64;
 public class EncriptadoDgonzalez {
     private static final String MILLAVE = "vJMnURwFuojTiaJT";
 
-    public static String encriptar(String textoEncriptar) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
+    public static String encriptarDgonzalez(String textoEncriptar) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
        Key millaveEnBytes = new SecretKeySpec(MILLAVE.getBytes(),"AES");
 
 
@@ -33,7 +33,7 @@ public class EncriptadoDgonzalez {
     return Base64.encodeBase64String(bytesEncriptados);
     }
 
-    public static String desencriptar(String textoDesencriptar) throws InvalidKeyException, NoSuchAlgorithmException, IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException  {
+    public static String desencriptarDgonzalez(String textoDesencriptar) throws InvalidKeyException, NoSuchAlgorithmException, IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException  {
 
      byte[] bytesEncriptados = Base64.decodeBase64(textoDesencriptar);
      Key millaveEnBytes = new SecretKeySpec(MILLAVE.getBytes(), "AES");
