@@ -48,6 +48,14 @@ public class PacienteDgonzalez {
         this.emailDgonzalez = emailDgonzalez;
     }
 
+    public PacienteDgonzalez(String nombreDgonzalez, String apellidosDgonzalez, int telefonoDgonzalez, int cpDgonzalez) {
+        this.nombreDgonzalez = nombreDgonzalez;
+        this.apellidosDgonzalez = apellidosDgonzalez;
+        this.telefonoDgonzalez = telefonoDgonzalez;
+        this.cpDgonzalez = cpDgonzalez;
+    }
+
+    
     
     
     public String getDniDgonzalez() {

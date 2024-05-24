@@ -115,6 +115,7 @@ public class NuevaCitaDgonzalez extends javax.swing.JDialog {
         jLabel12.setText("Hora");
 
         comboHora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "8.30", "9.00", "9.30", "10.00", "10.30", "11.00", "11.30", "12.00", "12.30", "13.00", "13.30", "14.00" }));
+        comboHora.setName("Hora"); // NOI18N
 
         jButton2.setBackground(new java.awt.Color(0, 102, 102));
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
@@ -276,7 +277,7 @@ public class NuevaCitaDgonzalez extends javax.swing.JDialog {
     
     public void registrarCitaDgonzalez () throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException{
         if (dateFecha.getDate() == null) {
-            JOptionPane.showMessageDialog(this, "Debe elegir una fecha de nacimiento");
+            JOptionPane.showMessageDialog(this, "Debe elegir una fecha para la cita.");
         } else if (UtilidadesDgonzalez.comboNoSeleccionado(comboHora)) {
             UtilidadesDgonzalez.alertaComboNoSeleccioando(this, comboHora);
         } else {

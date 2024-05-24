@@ -425,6 +425,7 @@ public class NuevoPacienteDgonzalez extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             registraPacienteDgonzalez();
+            
         } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException ex) {
             Logger.getLogger(NuevoPacienteDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -584,16 +585,17 @@ public class NuevoPacienteDgonzalez extends javax.swing.JDialog {
             datossalDgonzalez = campoPersonal.getText();
             fechRegDgonzalez = new Date();
 
-            PacienteDgonzalez pa = new PacienteDgonzalez(dniDgonzalez, nomDgonzalez, apeDgonzalez, fechaNacDgonzalez, telDgonzalez, emaDgonzalez, cpDgonzalez, sexDgonzalez, tabacDgonzalez, consumDgonzalez, datossalDgonzalez, datossalDgonzalez, fechRegDgonzalez);
+            PacienteDgonzalez pa = new PacienteDgonzalez(dniDgonzalez, nomDgonzalez, apeDgonzalez, fechaNacDgonzalez, telDgonzalez, emaDgonzalez, cpDgonzalez, sexDgonzalez, tabacDgonzalez, consumDgonzalez, anteDgonzalez, datossalDgonzalez, fechRegDgonzalez);
 
             ConexionDgonzalez.conectarDgonzalez();
 
             if (ConexionDgonzalez.registrarPacienteDgonzalez(pa)) {
                 ConexionDgonzalez.cerrarConexionDgonzalez();
+                JOptionPane.showMessageDialog(this, "Paciente registrado correctamente");
+                
+            } else {
                 JOptionPane.showMessageDialog(this, "Error en el registro del\n"
                         + "paciente. Inténtelo más tarde o póngase en contacto con el administrador del sistema");
-            } else {
-                JOptionPane.showMessageDialog(this, "Paciente registrado correctamente");
                 this.dispose();
             }
 

@@ -135,6 +135,11 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
         botonPaciente.setText("PACIENTE");
         botonPaciente.setEnabled(false);
         botonPaciente.setPreferredSize(new java.awt.Dimension(225, 135));
+        botonPaciente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonPacienteActionPerformed(evt);
+            }
+        });
         jPanel4.add(botonPaciente);
 
         botonEnfermeria.setBackground(new java.awt.Color(0, 153, 255));
@@ -243,6 +248,16 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
     EnfermeriaDgonzalez ed = new EnfermeriaDgonzalez();
     ed.setVisible(true);
     }//GEN-LAST:event_botonEnfermeriaActionPerformed
+
+    private void botonPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonPacienteActionPerformed
+    PacientesDgonzalezz np = null;
+        try {
+            np = new PacientesDgonzalezz(this,true);
+        } catch (InvalidKeyException | NoSuchAlgorithmException | IllegalBlockSizeException | NoSuchPaddingException | BadPaddingException ex) {
+            Logger.getLogger(MenuPrincipalDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    np.setVisible(true);
+    }//GEN-LAST:event_botonPacienteActionPerformed
 
     /**
      * @param args the command line arguments

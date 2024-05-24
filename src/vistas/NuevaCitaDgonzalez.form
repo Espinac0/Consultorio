@@ -241,6 +241,7 @@
                 <StringItem index="12" value="14.00"/>
               </StringArray>
             </Property>
+            <Property name="name" type="java.lang.String" value="Hora" noResource="true"/>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>

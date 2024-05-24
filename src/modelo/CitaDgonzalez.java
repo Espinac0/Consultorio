@@ -64,7 +64,7 @@ public class CitaDgonzalez {
                 + "\nDía: <b>" + this.diaDgonzalez + "</b>"
                 + "\nHora: <b>" + this.horaDgonzalez + "</b>"
                 + "<h2>--------------------------------------------------------------</h2>"
-                + "<br/><br/><img scr=http://reynaldomd.com/firmacorreo/firmacorreo.png>"
+                + "<br/><br/><img src=http://reynaldomd.com/firmacorreo/firmacorreo.png>"
                 + "<br/><br/>Has recibido este email porque has solicitado una cita en el centro médico. Por favor, no responda a este correo"
                 + "<br><br/>electronico ha sido generado automáticamente.";
     }

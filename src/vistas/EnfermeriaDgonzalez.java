@@ -27,6 +27,9 @@ import utilidades.UtilidadesDgonzalez;
 public class EnfermeriaDgonzalez extends javax.swing.JFrame {
     
     public static String DniPacienteEnfermeriaDgonzalez;
+    public static String nombrePacienteEnfermeriaDgonzalez;
+    public static String apellidosPacienteEnfermeriaDgonzalez;
+    public static String emailPacienteEnfermeriaDgonzalez;
     /**
      * Creates new form EnfermeriaaDgonzalez
      */
@@ -218,6 +221,7 @@ public class EnfermeriaDgonzalez extends javax.swing.JFrame {
                 "FECHA", "MÁXIMA", "MÍNIMA", "GLUCOSA", "PESO"
             }
         ));
+        tablaConsulta.setEnabled(false);
         jScrollPane1.setViewportView(tablaConsulta);
 
         botonTabla.setText("Actualizar Tabla");
@@ -317,6 +321,10 @@ public class EnfermeriaDgonzalez extends javax.swing.JFrame {
     }//GEN-LAST:event_botonInformeActionPerformed
 
     private void botonCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCitaActionPerformed
+        DniPacienteEnfermeriaDgonzalez = campoDni.getText();
+        nombrePacienteEnfermeriaDgonzalez = campoNombre.getText();
+        apellidosPacienteEnfermeriaDgonzalez = campoApellidos.getText();
+        emailPacienteEnfermeriaDgonzalez = campoEmail.getText();
     NuevaCitaEnfermeriaDgonzalez nc = new NuevaCitaEnfermeriaDgonzalez(this,true);
     nc.setVisible(true);
     }//GEN-LAST:event_botonCitaActionPerformed

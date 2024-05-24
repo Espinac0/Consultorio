@@ -4,6 +4,19 @@
  */
 package vistas;
 
+import bbdd.ConexionDgonzalez;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import modelo.PacienteDgonzalez;
+import utilidades.UtilidadesDgonzalez;
+
 /**
  *
  * @author David
@@ -13,9 +26,14 @@ public class PacientesDgonzalezz extends javax.swing.JDialog {
     /**
      * Creates new form NuevoPacienteDgonzalez
      */
-    public PacientesDgonzalezz(java.awt.Frame parent, boolean modal) {
+    public PacientesDgonzalezz(java.awt.Frame parent, boolean modal) throws InvalidKeyException, NoSuchAlgorithmException, IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException {
         super(parent, modal);
         initComponents();
+        DefaultTableModel modelo = (DefaultTableModel) tablaPaciente.getModel();
+        ConexionDgonzalez.conectarDgonzalez();
+        ConexionDgonzalez.cargaTablaPacientesDgonzalez(modelo);
+        ConexionDgonzalez.cargasComboCpDgonzalez(comboCP);
+        ConexionDgonzalez.cerrarConexionDgonzalez();
     }
 
     /**
@@ -34,7 +52,7 @@ public class PacientesDgonzalezz extends javax.swing.JDialog {
         jPanel3 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaPaciente = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         campoDNI = new javax.swing.JTextField();
@@ -46,7 +64,7 @@ public class PacientesDgonzalezz extends javax.swing.JDialog {
         campoTelefono = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         comboCP = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        botonActualizar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -89,18 +107,20 @@ public class PacientesDgonzalezz extends javax.swing.JDialog {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("LISTADO DE PACIENTES");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaPaciente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "DNI", "NOMBRE", "APELLIDOS", "TELÉFONO", "CP"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tablaPaciente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaPacienteMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tablaPaciente);
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "DATOS DEL PACIENTE", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(255, 255, 255))); // NOI18N
         jPanel4.setOpaque(false);
@@ -108,17 +128,27 @@ public class PacientesDgonzalezz extends javax.swing.JDialog {
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("DNI");
 
+        campoDNI.setEnabled(false);
+
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Nombre");
+
+        campoNombre.setEnabled(false);
 
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Apellidos");
 
+        campoApellidos.setEnabled(false);
+
         Teléfono.setForeground(new java.awt.Color(255, 255, 255));
         Teléfono.setText("Teléfono");
 
+        campoTelefono.setEnabled(false);
+
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("CP");
+
+        comboCP.setEnabled(false);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -176,7 +206,12 @@ public class PacientesDgonzalezz extends javax.swing.JDialog {
                 .addContainerGap(37, Short.MAX_VALUE))
         );
 
-        jButton1.setText("Actualizar");
+        botonActualizar.setText("Actualizar");
+        botonActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonActualizarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -193,7 +228,7 @@ public class PacientesDgonzalezz extends javax.swing.JDialog {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(189, 189, 189)
-                                .addComponent(jButton1)
+                                .addComponent(botonActualizar)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
@@ -211,8 +246,8 @@ public class PacientesDgonzalezz extends javax.swing.JDialog {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(29, 29, 29)
-                        .addComponent(jButton1)))
-                .addContainerGap(67, Short.MAX_VALUE))
+                        .addComponent(botonActualizar)))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -244,6 +279,33 @@ public class PacientesDgonzalezz extends javax.swing.JDialog {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tablaPacienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaPacienteMouseClicked
+//CLICK DE RATON EN TABLA
+        campoDNI.setText((String) tablaPaciente.getValueAt(tablaPaciente.getSelectedRow(), 0));
+        campoNombre.setText((String) tablaPaciente.getValueAt(tablaPaciente.getSelectedRow(), 1));
+        campoApellidos.setText((String) tablaPaciente.getValueAt(tablaPaciente.getSelectedRow(), 2));
+        campoTelefono.setText((String) tablaPaciente.getValueAt(tablaPaciente.getSelectedRow(), 3));
+        comboCP.setSelectedItem((String) tablaPaciente.getValueAt(tablaPaciente.getSelectedRow(), 4));
+        campoNombre.setEnabled(true);
+        campoApellidos.setEnabled(true);
+        campoTelefono.setEnabled(true);
+        comboCP.setEnabled(true);
+        
+    }//GEN-LAST:event_tablaPacienteMouseClicked
+
+    private void botonActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActualizarActionPerformed
+        try {
+            actualizarPacienteDgonzalez();
+            ConexionDgonzalez.conectarDgonzalez();
+            DefaultTableModel modelo = (DefaultTableModel) tablaPaciente.getModel();
+            modelo.setRowCount(0);
+            ConexionDgonzalez.cargaTablaPacientesDgonzalez(modelo);
+            ConexionDgonzalez.cerrarConexionDgonzalez();
+        } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException ex) {
+            Logger.getLogger(PacientesDgonzalezz.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_botonActualizarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -278,7 +340,12 @@ public class PacientesDgonzalezz extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                PacientesDgonzalezz dialog = new PacientesDgonzalezz(new javax.swing.JFrame(), true);
+                PacientesDgonzalezz dialog = null;
+                try {
+                    dialog = new PacientesDgonzalezz(new javax.swing.JFrame(), true);
+                } catch (InvalidKeyException | NoSuchAlgorithmException | IllegalBlockSizeException | NoSuchPaddingException | BadPaddingException ex) {
+                    Logger.getLogger(PacientesDgonzalezz.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -292,12 +359,12 @@ public class PacientesDgonzalezz extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Teléfono;
+    private javax.swing.JButton botonActualizar;
     private javax.swing.JTextField campoApellidos;
     private javax.swing.JTextField campoDNI;
     private javax.swing.JTextField campoNombre;
     private javax.swing.JTextField campoTelefono;
     private javax.swing.JComboBox<String> comboCP;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel4;
@@ -310,6 +377,47 @@ public class PacientesDgonzalezz extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tablaPaciente;
     // End of variables declaration//GEN-END:variables
+
+    String dniDgonzalez , nomDgonzalez, apeDgonzalez;
+    int telDgonzalez, cpDgonzalez;
+    
+    public void actualizarPacienteDgonzalez() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException{
+      if (UtilidadesDgonzalez.compruebaVacioDgonzalez(campoNombre)) {
+            UtilidadesDgonzalez.lanzaAlertaVacioDgonzalez(campoNombre);
+        } else if (UtilidadesDgonzalez.compruebaVacioDgonzalez(campoApellidos)) {
+            UtilidadesDgonzalez.lanzaAlertaVacioDgonzalez(campoApellidos);
+        } else if (UtilidadesDgonzalez.compruebaVacioDgonzalez(campoTelefono)) {
+            UtilidadesDgonzalez.lanzaAlertaVacioDgonzalez(campoTelefono);
+        } else if (UtilidadesDgonzalez.formatoTlf(campoTelefono)) {
+            UtilidadesDgonzalez.lanzaAlertaFormatoTlf(this, campoTelefono);
+        }  else if (UtilidadesDgonzalez.formatoEmailCorrecto(campoApellidos)) {
+            UtilidadesDgonzalez.lanzaAlertaEmail(this, campoApellidos);
+        } else if (UtilidadesDgonzalez.comboNoSeleccionado(comboCP)) {
+            UtilidadesDgonzalez.alertaComboNoSeleccioando(this, comboCP);
+        }  else {
+            
+            dniDgonzalez =campoDNI.getText();
+            nomDgonzalez = campoNombre.getText();
+            apeDgonzalez = campoApellidos.getText();
+            telDgonzalez = Integer.parseInt(campoTelefono.getText());
+            cpDgonzalez = Integer.parseInt(comboCP.getSelectedItem().toString());
+            
+            PacienteDgonzalez pd = new PacienteDgonzalez(nomDgonzalez, apeDgonzalez, telDgonzalez, cpDgonzalez);
+            
+            ConexionDgonzalez.conectarDgonzalez();
+
+            if (ConexionDgonzalez.actualizarPacienteDgonzalez(pd , dniDgonzalez)) {
+                ConexionDgonzalez.cerrarConexionDgonzalez();
+                JOptionPane.showMessageDialog(this, "Paciente actualizado correctamente");
+            } else {
+                JOptionPane.showMessageDialog(this, "Paciente actualizado correctamente");
+                this.dispose();
+            }
+            
+        }
+    }
+    
+
 }

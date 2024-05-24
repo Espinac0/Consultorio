@@ -148,9 +148,23 @@ public class UtilidadesDgonzalez {
         String modeloEmail = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.com";
         return campo.getText().matches(modeloEmail);
     }
-    
+    /**
+     * 
+     * @param c
+     * @param campo 
+     */
     public static void lanzaAlertaEmail(Component c, JTextField campo){
         JOptionPane.showMessageDialog(c, "El correo no esta escrito de manera correcta");
+    }
+    
+    public static boolean esNumeroColegiadoValido(String numeroColegiado) {
+        if (numeroColegiado.length() != 9) {
+            return false;
+        }
+        if (numeroColegiado.matches("^[1-9][0-9]{8}$")) {
+            return true;
+        }
+        return false;
     }
     
 }
