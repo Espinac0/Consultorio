@@ -73,6 +73,8 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(1275, 750));
+        setPreferredSize(new java.awt.Dimension(1275, 750));
 
         jPanel2.setBackground(new java.awt.Color(0, 204, 204));
         jPanel2.setPreferredSize(new java.awt.Dimension(1275, 750));
@@ -159,6 +161,11 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
         botonPersonal.setText("PERSONAL MEDICO");
         botonPersonal.setEnabled(false);
         botonPersonal.setPreferredSize(new java.awt.Dimension(225, 135));
+        botonPersonal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonPersonalActionPerformed(evt);
+            }
+        });
         jPanel4.add(botonPersonal);
 
         LabelAgenciaCitas.setForeground(new java.awt.Color(255, 255, 255));
@@ -217,7 +224,7 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 1257, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -258,6 +265,11 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
         }
     np.setVisible(true);
     }//GEN-LAST:event_botonPacienteActionPerformed
+
+    private void botonPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonPersonalActionPerformed
+    PersonalMedicoDgonzalez pmd = new PersonalMedicoDgonzalez(this, true);
+    pmd.setVisible(true);
+    }//GEN-LAST:event_botonPersonalActionPerformed
 
     /**
      * @param args the command line arguments

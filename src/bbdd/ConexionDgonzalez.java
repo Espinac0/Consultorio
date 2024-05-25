@@ -32,7 +32,7 @@ import utilidades.EncriptadoDgonzalez;
  * @author David
  */
 public class ConexionDgonzalez {
-    
+
     static java.sql.Connection conn;
 
     /**
@@ -49,7 +49,11 @@ public class ConexionDgonzalez {
      * parametro de la contraseña para entrar a la base de datos
      */
     public static final String PASSWORD = "2024-Daw";
-    
+
+    /**
+     *
+     * @return
+     */
     public static Connection conectarDgonzalez() {
         try {
 
@@ -58,19 +62,33 @@ public class ConexionDgonzalez {
         } catch (SQLException ex) {
             Logger.getLogger(ConexionDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;  
+        return null;
     }
-    
-    public static void cerrarConexionDgonzalez(){
+
+    /**
+     *
+     */
+    public static void cerrarConexionDgonzalez() {
         try {
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(ConexionDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public static boolean accederDgonzalez(String user,String pass) throws InvalidKeyException, NoSuchAlgorithmException, IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException{
-      try {
+
+    /**
+     *
+     * @param user
+     * @param pass
+     * @return
+     * @throws InvalidKeyException
+     * @throws NoSuchAlgorithmException
+     * @throws IllegalBlockSizeException
+     * @throws NoSuchPaddingException
+     * @throws BadPaddingException
+     */
+    public static boolean accederDgonzalez(String user, String pass) throws InvalidKeyException, NoSuchAlgorithmException, IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException {
+        try {
             String consulta = "SELECT usuario, contrasenya FROM personal WHERE usuario=? AND contrasenya=?";
 
             PreparedStatement pst = conn.prepareCall(consulta);
@@ -86,39 +104,53 @@ public class ConexionDgonzalez {
         } catch (SQLException ex) {
             Logger.getLogger(ConexionDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;  
+        return false;
     }
-    
-    public static String[] recuperarDatosUserLogado(String user) {
-       try {
-        String[] datos = new String[3];
-        String consulta = "SELECT CONCAT(nombre, ' ', apellidos) AS nombre_completo, numero_colegiado, tipo FROM personal WHERE usuario=?";
-        PreparedStatement pst = conn.prepareCall(consulta);
-        pst.setString(1, user);
-        ResultSet rs = pst.executeQuery();
 
-        if (rs.next()) {
-            datos[0] = rs.getString("nombre_completo");
-            datos[1] = Integer.toString(rs.getInt("numero_colegiado"));
-            datos[2] = rs.getString("tipo");
-            return datos;
+    /**
+     *
+     * @param user
+     * @return
+     */
+    public static String[] recuperarDatosUserLogado(String user) {
+        try {
+            String[] datos = new String[3];
+            String consulta = "SELECT CONCAT(nombre, ' ', apellidos) AS nombre_completo, numero_colegiado, tipo FROM personal WHERE usuario=?";
+            PreparedStatement pst = conn.prepareCall(consulta);
+            pst.setString(1, user);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                datos[0] = rs.getString("nombre_completo");
+                datos[1] = Integer.toString(rs.getInt("numero_colegiado"));
+                datos[2] = rs.getString("tipo");
+                return datos;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConexionDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
         }
-    } catch (SQLException ex) {
-        Logger.getLogger(ConexionDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
+        return null;
     }
-    return null;
-    } 
-    
+
+    /**
+     *
+     * @param modelo
+     * @throws InvalidKeyException
+     * @throws NoSuchAlgorithmException
+     * @throws NoSuchPaddingException
+     * @throws IllegalBlockSizeException
+     * @throws BadPaddingException
+     */
     public static void recuperaCitasMedicasDgonzalez(DefaultTableModel modelo) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
-       try {
+        try {
             String SSQL = "SELECT nombre as NOMBRE, dia as DIA, Hora as hora FROM citas WHERE dia = CURDATE()";
-            
+
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(SSQL);
-            
-           while (rs.next()) {
-                Object[] registro = new Object[3]; 
-                
+
+            while (rs.next()) {
+                Object[] registro = new Object[3];
+
                 registro[0] = EncriptadoDgonzalez.desencriptarDgonzalez(rs.getString("NOMBRE"));
                 registro[1] = rs.getString("DIA");
                 registro[2] = rs.getString("HORA");
@@ -127,19 +159,23 @@ public class ConexionDgonzalez {
             }
         } catch (SQLException ex) {
             Logger.getLogger(ConexionDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        }
     }
-    
+
+    /**
+     *
+     * @param modelo
+     */
     public static void recuperaCitasEnfermeriaDgonzalez(DefaultTableModel modelo) {
         try {
             String SSQL = "SELECT nombre as NOMBRE, dia as DIA, Hora as hora FROM citas WHERE dia = CURDATE()";
-            
+
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(SSQL);
-            
-           while (rs.next()) {
-                Object[] registro = new Object[3]; 
-                
+
+            while (rs.next()) {
+                Object[] registro = new Object[3];
+
                 try {
                     registro[0] = EncriptadoDgonzalez.desencriptarDgonzalez(rs.getString("NOMBRE"));
                 } catch (InvalidKeyException | NoSuchAlgorithmException | IllegalBlockSizeException | NoSuchPaddingException | BadPaddingException ex) {
@@ -152,10 +188,19 @@ public class ConexionDgonzalez {
             }
         } catch (SQLException ex) {
             Logger.getLogger(ConexionDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        }
     }
-    
-    
+
+    /**
+     *
+     * @param c
+     * @return
+     * @throws InvalidKeyException
+     * @throws NoSuchAlgorithmException
+     * @throws NoSuchPaddingException
+     * @throws IllegalBlockSizeException
+     * @throws BadPaddingException
+     */
     public static boolean registrarCitaMedicaDgonzalez(CitaDgonzalez c) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
         try {
             String consulta = "INSERT INTO citas(dniPaciente, nombre , dia, hora) VALUES (?, ?, ?, ?)";
@@ -164,28 +209,8 @@ public class ConexionDgonzalez {
 
             pst.setString(1, EncriptadoDgonzalez.encriptarDgonzalez(c.getDniPacienteDgonzalez()));
             pst.setString(2, EncriptadoDgonzalez.encriptarDgonzalez(c.getNombreDgonzalez()));
-            pst.setDate(3,  new java.sql.Date(c.getDiaDgonzalez().getTime()));
-            pst.setDouble(4,  c.getHoraDgonzalez());
-
-            pst.execute();
-
-        } catch (SQLException ex) {
-            Logger.getLogger(ConexionDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false; 
-    }
-    
-    
-    public static boolean registrarCitaEnfermeriaDgonzalez(CitaDgonzalez c) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
-        try {
-            String consulta = "INSERT INTO citasEnfermeria(dniPaciente, nombre , dia, hora) VALUES (?, ?, ?, ?)";
-
-            PreparedStatement pst = conn.prepareStatement(consulta);
-
-            pst.setString(1, EncriptadoDgonzalez.encriptarDgonzalez(c.getDniPacienteDgonzalez()));
-            pst.setString(2, EncriptadoDgonzalez.encriptarDgonzalez(c.getNombreDgonzalez()));
-            pst.setDate(3,  new java.sql.Date(c.getDiaDgonzalez().getTime()));
-            pst.setDouble(4,  c.getHoraDgonzalez());
+            pst.setDate(3, new java.sql.Date(c.getDiaDgonzalez().getTime()));
+            pst.setDouble(4, c.getHoraDgonzalez());
 
             pst.execute();
 
@@ -194,11 +219,43 @@ public class ConexionDgonzalez {
         }
         return false;
     }
-    
-    
-    
+
+    /**
+     *
+     * @param c
+     * @return
+     * @throws InvalidKeyException
+     * @throws NoSuchAlgorithmException
+     * @throws NoSuchPaddingException
+     * @throws IllegalBlockSizeException
+     * @throws BadPaddingException
+     */
+    public static boolean registrarCitaEnfermeriaDgonzalez(CitaDgonzalez c) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
+        try {
+            String consulta = "INSERT INTO citasEnfermeria(dniPaciente, nombre , dia, hora) VALUES (?, ?, ?, ?)";
+
+            PreparedStatement pst = conn.prepareStatement(consulta);
+
+            pst.setString(1, EncriptadoDgonzalez.encriptarDgonzalez(c.getDniPacienteDgonzalez()));
+            pst.setString(2, EncriptadoDgonzalez.encriptarDgonzalez(c.getNombreDgonzalez()));
+            pst.setDate(3, new java.sql.Date(c.getDiaDgonzalez().getTime()));
+            pst.setDouble(4, c.getHoraDgonzalez());
+
+            pst.execute();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ConexionDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @param dni
+     * @return
+     */
     public static boolean compruebaDniDgonzalez(String dni) {
-    String SSQL = "SELECT dni FROM paciente WHERE dni =?";
+        String SSQL = "SELECT dni FROM paciente WHERE dni =?";
 
         PreparedStatement pst = null;
         ResultSet rs = null;
@@ -215,7 +272,12 @@ public class ConexionDgonzalez {
         }
         return false;
     }
-    
+
+    /**
+     *
+     * @param dni
+     * @return
+     */
     public static PacienteDgonzalez recuperaDatosPacienteDgonzalez(String dni) {
 
         String consultaRecuperaTipo = "SELECT nombre, apellidos, telefono, email "
@@ -242,58 +304,69 @@ public class ConexionDgonzalez {
         }
         return p;
     }
-    
-    
-    public static void cargaTablaConsultasMedicasDgonzalez(DefaultTableModel modelo,String dni) {
+
+    /**
+     *
+     * @param modelo
+     * @param dni
+     */
+    public static void cargaTablaConsultasMedicasDgonzalez(DefaultTableModel modelo, String dni) {
         try {
-            String SSQL = "SELECT fechaConsulta as FECHA, diagnostico as DIAGNOSTICO, tratamiento as TRATAMIENTO, observaciones as OBSERVACIONES FROM consultas WHERE dniPaciente = '" + dni +"'";
-            
+            String SSQL = "SELECT fechaConsulta as FECHA, diagnostico as DIAGNOSTICO, tratamiento as TRATAMIENTO, observaciones as OBSERVACIONES FROM consultas WHERE dniPaciente = '" + dni + "'";
+
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(SSQL);
-            
-           while (rs.next()) {
-                Object[] consultaDgonzalez = new Object[4]; 
-                
+
+            while (rs.next()) {
+                Object[] consultaDgonzalez = new Object[4];
+
                 consultaDgonzalez[0] = rs.getString("FECHA");
                 consultaDgonzalez[1] = rs.getString("DIAGNOSTICO");
                 consultaDgonzalez[2] = rs.getString("TRATAMIENTO");
                 consultaDgonzalez[3] = rs.getString("OBSERVACIONES");
-                
-                
+
                 modelo.addRow(consultaDgonzalez);
             }
         } catch (SQLException ex) {
             Logger.getLogger(ConexionDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
-    public static void cargaTablaConsultasEnfermeriaDgonzalez(DefaultTableModel modelo,String dni) {
-      try {
-            String SSQL = "SELECT fechaConsulta as FECHA, tensionMax as MAXIMA, tensionMin as MINIMA, glucosa as GLUCOSA, peso as PESO  FROM enfermeria WHERE dniPaciente = '" + dni +"'";
-            
+
+    /**
+     *
+     * @param modelo
+     * @param dni
+     */
+    public static void cargaTablaConsultasEnfermeriaDgonzalez(DefaultTableModel modelo, String dni) {
+        try {
+            String SSQL = "SELECT fechaConsulta as FECHA, tensionMax as MAXIMA, tensionMin as MINIMA, glucosa as GLUCOSA, peso as PESO  FROM enfermeria WHERE dniPaciente = '" + dni + "'";
+
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(SSQL);
-            
-           while (rs.next()) {
-                Object[] consultaDgonzalez = new Object[5]; 
-                
+
+            while (rs.next()) {
+                Object[] consultaDgonzalez = new Object[5];
+
                 consultaDgonzalez[0] = rs.getString("FECHA");
                 consultaDgonzalez[1] = rs.getString("MAXIMA");
                 consultaDgonzalez[2] = rs.getString("MINIMA");
                 consultaDgonzalez[3] = rs.getString("GLUCOSA");
                 consultaDgonzalez[4] = rs.getString("PESO");
-                
+
                 modelo.addRow(consultaDgonzalez);
             }
         } catch (SQLException ex) {
             Logger.getLogger(ConexionDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
-        }  
+        }
     }
-    
-    
+
+    /**
+     *
+     * @param c
+     * @return
+     */
     public static boolean registrarConsultaMedicaDgonzalez(ConsultaDgonzalez c) {
-       try {
+        try {
             String consulta = "INSERT INTO consultas(dniPaciente, fechaConsulta , diagnostico, tratamiento, observaciones, codigofacultativo) VALUES (?, ?, ?, ?, ?, ?)";
 
             PreparedStatement pst = conn.prepareStatement(consulta);
@@ -310,12 +383,16 @@ public class ConexionDgonzalez {
         } catch (SQLException ex) {
             Logger.getLogger(ConexionDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false; 
+        return false;
     }
-    
-    
+
+    /**
+     *
+     * @param ce
+     * @return
+     */
     public static boolean registrarConsultaEnfermeriaDgonzalez(ConsultaEnfermeriaDgonzalez ce) {
-     try {
+        try {
             String consulta = "INSERT INTO enfermeria(dniPaciente, fechaConsulta , tensionMax, tensionMin, glucosa, peso, codigoFacultativo) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
             PreparedStatement pst = conn.prepareStatement(consulta);
@@ -333,11 +410,15 @@ public class ConexionDgonzalez {
         } catch (SQLException ex) {
             Logger.getLogger(ConexionDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;    
+        return false;
     }
-    
-    public static void cargasComboCpDgonzalez(JComboBox combo){
-        
+
+    /**
+     *
+     * @param combo
+     */
+    public static void cargasComboCpDgonzalez(JComboBox combo) {
+
         String consulta = "SELECT codigopostal FROM codigospostales";
 
         try {
@@ -352,8 +433,18 @@ public class ConexionDgonzalez {
             Logger.getLogger(ConexionDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public static boolean registrarPacienteDgonzalez(PacienteDgonzalez p) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException{
+
+    /**
+     *
+     * @param p
+     * @return
+     * @throws InvalidKeyException
+     * @throws NoSuchAlgorithmException
+     * @throws NoSuchPaddingException
+     * @throws IllegalBlockSizeException
+     * @throws BadPaddingException
+     */
+    public static boolean registrarPacienteDgonzalez(PacienteDgonzalez p) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
         try {
             String consulta = "INSERT INTO paciente(dni, nombre , apellidos, fechaNacimiento, telefono, email, cp, sexo, tabaquismo, consumoAlcohol,"
                     + "antecedentesSalud, datosSaludGeneral, fechaRegistro) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -365,72 +456,96 @@ public class ConexionDgonzalez {
             pst.setString(3, EncriptadoDgonzalez.encriptarDgonzalez(p.getApellidosDgonzalez()));
             pst.setDate(4, new java.sql.Date(p.getFechaNacimientoDgonzalez().getTime()));
             pst.setInt(5, p.getTelefonoDgonzalez());
-            pst.setString(6, p.getEmailDgonzalez()); /* */
+            pst.setString(6, p.getEmailDgonzalez());
+            /* */
             pst.setInt(7, p.getCpDgonzalez());
             pst.setString(8, p.getSexoDgonzalez());
             pst.setString(9, p.getTabaquismoDgonzalez());
             pst.setString(10, p.getConsumoalcoholDgonzalez());
             pst.setString(11, p.getAntecedentesSaludDgonzalez());
             pst.setString(12, p.getDatosSaludGeneralDgonzalez());
-            pst.setDate(13,  new java.sql.Date(p.getFechaRegistroDgonzalez().getTime()));
-            
+            pst.setDate(13, new java.sql.Date(p.getFechaRegistroDgonzalez().getTime()));
 
             pst.execute();
 
         } catch (SQLException ex) {
             Logger.getLogger(ConexionDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false; 
+        return false;
     }
-    
-    public static boolean actualizarPacienteDgonzalez(PacienteDgonzalez p, String dni) 
-        throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
-    try {
-        String consulta = "UPDATE paciente SET nombre = ?, apellidos = ?, telefono = ?, cp = ? WHERE dni = ?";
-        
-        PreparedStatement pst = conn.prepareStatement(consulta);
-        
-        pst.setString(1, EncriptadoDgonzalez.encriptarDgonzalez(p.getNombreDgonzalez()));
-        pst.setString(2, EncriptadoDgonzalez.encriptarDgonzalez(p.getApellidosDgonzalez()));
-        pst.setInt(3, p.getTelefonoDgonzalez());
-        pst.setInt(4, p.getCpDgonzalez());
-        pst.setString(5, EncriptadoDgonzalez.encriptarDgonzalez(dni));
-        
-        int filasAfectadas = pst.executeUpdate();
-        
-        return filasAfectadas > 0;
-    } catch (SQLException ex) {
-        Logger.getLogger(ConexionDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
-    }
-    return false;
-}
 
-    
+    /**
+     *
+     * @param p
+     * @param dni
+     * @return
+     * @throws InvalidKeyException
+     * @throws NoSuchAlgorithmException
+     * @throws NoSuchPaddingException
+     * @throws IllegalBlockSizeException
+     * @throws BadPaddingException
+     */
+    public static boolean actualizarPacienteDgonzalez(PacienteDgonzalez p, String dni)
+            throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
+        try {
+            String consulta = "UPDATE paciente SET nombre = ?, apellidos = ?, telefono = ?, cp = ? WHERE dni = ?";
+
+            PreparedStatement pst = conn.prepareStatement(consulta);
+
+            pst.setString(1, EncriptadoDgonzalez.encriptarDgonzalez(p.getNombreDgonzalez()));
+            pst.setString(2, EncriptadoDgonzalez.encriptarDgonzalez(p.getApellidosDgonzalez()));
+            pst.setInt(3, p.getTelefonoDgonzalez());
+            pst.setInt(4, p.getCpDgonzalez());
+            pst.setString(5, EncriptadoDgonzalez.encriptarDgonzalez(dni));
+
+            int filasAfectadas = pst.executeUpdate();
+
+            return filasAfectadas > 0;
+        } catch (SQLException ex) {
+            Logger.getLogger(ConexionDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @param modelo
+     * @throws InvalidKeyException
+     * @throws NoSuchAlgorithmException
+     * @throws IllegalBlockSizeException
+     * @throws NoSuchPaddingException
+     * @throws BadPaddingException
+     */
     public static void cargaTablaPacientesDgonzalez(DefaultTableModel modelo) throws InvalidKeyException, NoSuchAlgorithmException, IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException {
         try {
             String SSQL = "SELECT dni as DNI, nombre as NOMBRE, apellidos as APELLIDOS, telefono as TELEFONO, cp as CP  FROM paciente";
-            
+
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(SSQL);
-            
-           while (rs.next()) {
-                Object[] consultaDgonzalez = new Object[5]; 
-                
+
+            while (rs.next()) {
+                Object[] consultaDgonzalez = new Object[5];
+
                 consultaDgonzalez[0] = EncriptadoDgonzalez.desencriptarDgonzalez(rs.getString("DNI"));
                 consultaDgonzalez[1] = EncriptadoDgonzalez.desencriptarDgonzalez(rs.getString("NOMBRE"));
                 consultaDgonzalez[2] = EncriptadoDgonzalez.desencriptarDgonzalez(rs.getString("APELLIDOS"));
                 consultaDgonzalez[3] = rs.getString("TELEFONO");
                 consultaDgonzalez[4] = rs.getString("CP");
-                
+
                 modelo.addRow(consultaDgonzalez);
             }
         } catch (SQLException ex) {
             Logger.getLogger(ConexionDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        }
     }
-    
+
+    /**
+     *
+     * @param user
+     * @return
+     */
     public static boolean compruebaUserDgonzalez(String user) {
-     String SSQL = "SELECT usuario FROM personal WHERE usuario =?";
+        String SSQL = "SELECT usuario FROM personal WHERE usuario =?";
 
         PreparedStatement pst = null;
         ResultSet rs = null;
@@ -445,12 +560,17 @@ public class ConexionDgonzalez {
         } catch (SQLException ex) {
             Logger.getLogger(ConexionDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;   
+        return false;
     }
-    
-    
+
+    /**
+     *
+     * @param numero
+     * @return
+     */
     public static boolean compruebaNumeroColegiadoDgonzalez(long numero) {
-       String SSQL = "SELECT numero_colegiado FROM personal WHERE numero_colegiado =?";
+        conectarDgonzalez();
+        String SSQL = "SELECT numero_colegiado FROM personal WHERE numero_colegiado =?";
 
         PreparedStatement pst = null;
         ResultSet rs = null;
@@ -461,37 +581,49 @@ public class ConexionDgonzalez {
             rs = pst.executeQuery();
             if (rs.next()) {
                 return true;
+
             }
         } catch (SQLException ex) {
             Logger.getLogger(ConexionDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;  
+        return false;
+
     }
-    
-    
+
+    /**
+     *
+     * @param p
+     * @return
+     * @throws InvalidKeyException
+     * @throws NoSuchAlgorithmException
+     * @throws NoSuchPaddingException
+     * @throws IllegalBlockSizeException
+     * @throws BadPaddingException
+     */
     public static boolean registrarPersonalDgonzalez(PersonalDgonzalez p) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
-     
+
         try {
             String consulta = "INSERT INTO personal() VALUES (?, ?, ?, ?, ?, ?, ?)";
 
             PreparedStatement pst = conn.prepareStatement(consulta);
 
-            pst.setInt(1, p.getNumero_colegiadoDgonzalez()); 
-            pst.setString(2, p.getNombreDgonzalez()); 
-            pst.setString(3, p.getApellidosDgonzalez()); 
-            pst.setInt(4, p.getTelefonoDgonzalez()); 
-            pst.setString(5, EncriptadoDgonzalez.encriptarDgonzalez(p.getUsuarioDgonzalez()));
-            pst.setString(6,EncriptadoDgonzalez.encriptarDgonzalez(p.getContrasenyaDgonzalez()));
+            pst.setLong(1, p.getNumero_colegiadoDgonzalez());
+            pst.setString(2, p.getNombreDgonzalez());
+            pst.setString(3, p.getApellidosDgonzalez());
+            pst.setInt(4, p.getTelefonoDgonzalez());
+            pst.setString(5, p.getUsuarioDgonzalez());
+            pst.setString(6, EncriptadoDgonzalez.encriptarDgonzalez(p.getContrasenyaDgonzalez()));
             pst.setString(7, p.getTipoDgonzalez());
-            
+
             pst.execute();
 
         } catch (SQLException ex) {
             Logger.getLogger(ConexionDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
-        
-    } 
-    
+
+    }
+
    
+
 }

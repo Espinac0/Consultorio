@@ -65,6 +65,9 @@ public class NuevaCitaEnfermeriaDgonzalez extends javax.swing.JDialog {
         comboFecha = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(600, 465));
+        setPreferredSize(new java.awt.Dimension(600, 465));
+        setResizable(false);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 

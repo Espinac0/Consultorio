@@ -4,6 +4,20 @@
  */
 package vistas;
 
+import bbdd.ConexionDgonzalez;
+import static bbdd.ConexionDgonzalez.compruebaNumeroColegiadoDgonzalez;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.swing.JOptionPane;
+import modelo.PersonalDgonzalez;
+import utilidades.UtilidadesDgonzalez;
+import static utilidades.UtilidadesDgonzalez.esNumeroColegiadoValidoDgonzalez;
+
 /**
  *
  * @author David
@@ -32,22 +46,23 @@ public class PersonalMedicoDgonzalez extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        campoColegiado = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        campoNombre = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        campoApellidos = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        campoTelefono = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        campoUsuario = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
         jLabel12 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        comboTipo = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
+        campoContraseña = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -88,17 +103,27 @@ public class PersonalMedicoDgonzalez extends javax.swing.JDialog {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Nº de Colegiado");
 
+        campoColegiado.setName("Numero de Colegiado"); // NOI18N
+
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Nombre");
+
+        campoNombre.setName("Nombre"); // NOI18N
 
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Apellidos");
 
+        campoApellidos.setName("Apellidos"); // NOI18N
+
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Teléfono");
 
+        campoTelefono.setName("Teléfono"); // NOI18N
+
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Usuario");
+
+        campoUsuario.setName("Usuario"); // NOI18N
 
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Contraseña");
@@ -106,9 +131,17 @@ public class PersonalMedicoDgonzalez extends javax.swing.JDialog {
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setText("Tipo");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "MEDICO", "ENFERMERIA" }));
+        comboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "MEDICO", "ENFERMERIA" }));
+        comboTipo.setName("tipo"); // NOI18N
 
         jButton1.setText("REGISTRAR");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        campoContraseña.setName("Contraseña"); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -123,30 +156,30 @@ public class PersonalMedicoDgonzalez extends javax.swing.JDialog {
                             .addComponent(jLabel7))
                         .addGap(36, 36, 36)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(campoColegiado, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
                             .addComponent(jLabel9))
                         .addGap(75, 75, 75)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel10)
-                                .addComponent(jLabel11)
-                                .addComponent(jLabel12))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGap(66, 66, 66)
-                                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                            .addComponent(campoTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(campoApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel12))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(66, 66, 66)
+                                .addComponent(campoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(comboTipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(campoContraseña))))))
                 .addContainerGap(201, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(173, 173, 173)
@@ -159,31 +192,31 @@ public class PersonalMedicoDgonzalez extends javax.swing.JDialog {
                 .addGap(49, 49, 49)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(campoColegiado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(campoApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(campoTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(campoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(campoContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36))
@@ -207,6 +240,14 @@ public class PersonalMedicoDgonzalez extends javax.swing.JDialog {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            registrarPersonalDgonzalez();
+        } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException ex) {
+            Logger.getLogger(PersonalMedicoDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -251,8 +292,14 @@ public class PersonalMedicoDgonzalez extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField campoApellidos;
+    private javax.swing.JTextField campoColegiado;
+    private javax.swing.JPasswordField campoContraseña;
+    private javax.swing.JTextField campoNombre;
+    private javax.swing.JTextField campoTelefono;
+    private javax.swing.JTextField campoUsuario;
+    private javax.swing.JComboBox<String> comboTipo;
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -264,11 +311,74 @@ public class PersonalMedicoDgonzalez extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     // End of variables declaration//GEN-END:variables
+
+    String numcoleDgonzalez, nomDgonzalez, apeDgonzalez;
+    int teleDgonzalez;
+    String usuDgonzalez, contraDgonzalez, tipDgonzalez;
+
+    public void registrarPersonalDgonzalez() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
+        ConexionDgonzalez.conectarDgonzalez();
+        if (UtilidadesDgonzalez.compruebaVacioDgonzalez(campoColegiado)) {
+            UtilidadesDgonzalez.lanzaAlertaVacioDgonzalez(campoColegiado);
+        } else if (!esNumeroColegiadoValidoDgonzalez(campoColegiado.getText())) {
+            JOptionPane.showMessageDialog(this, "El numero de colegiado no puede emepezar por 0 y debe contener 9 numeros"); 
+        } else if (compruebaNumeroColegiadoDgonzalez(Long.parseLong(campoColegiado.getText()))){
+            JOptionPane.showMessageDialog(this, "El numero de colegiado ya esta registrado");
+        } else if (UtilidadesDgonzalez.compruebaVacioDgonzalez(campoNombre)){
+            UtilidadesDgonzalez.lanzaAlertaVacioDgonzalez(campoNombre);
+        } else if (UtilidadesDgonzalez.compruebaVacioDgonzalez(campoApellidos)){
+            UtilidadesDgonzalez.lanzaAlertaVacioDgonzalez(campoApellidos);
+        } else if (UtilidadesDgonzalez.compruebaVacioDgonzalez(campoTelefono)){
+            UtilidadesDgonzalez.lanzaAlertaVacioDgonzalez(campoTelefono);
+        } else if (UtilidadesDgonzalez.formatoTlf(campoTelefono)) {
+            UtilidadesDgonzalez.lanzaAlertaFormatoTlf(this, campoTelefono);
+        } else if (UtilidadesDgonzalez.compruebaVacioDgonzalez(campoUsuario)){
+            UtilidadesDgonzalez.lanzaAlertaVacioDgonzalez(campoUsuario);
+        } else if (ConexionDgonzalez.compruebaUserDgonzalez((campoUsuario.getText()))){
+            JOptionPane.showMessageDialog(this, "El nombre de usuario ya esta escogido.");
+        } else if (UtilidadesDgonzalez.compruebaVacioDgonzalez(campoContraseña)){
+            UtilidadesDgonzalez.lanzaAlertaVacioDgonzalez(campoContraseña);
+        } else if (utilidades.UtilidadesDgonzalez.comboNoSeleccionado(comboTipo)){
+             UtilidadesDgonzalez.alertaComboNoSeleccioando(this, comboTipo);
+        } else {
+            ConexionDgonzalez.cerrarConexionDgonzalez();
+            
+            numcoleDgonzalez = campoColegiado.getText();
+            nomDgonzalez = campoNombre.getText();
+            apeDgonzalez = campoApellidos.getText();
+            teleDgonzalez = Integer.parseInt(campoTelefono.getText());
+            usuDgonzalez = campoUsuario.getText();
+            contraDgonzalez = new String (campoContraseña.getPassword());
+            tipDgonzalez = (String) comboTipo.getSelectedItem();
+            
+            ConexionDgonzalez.conectarDgonzalez();
+            PersonalDgonzalez pm = new PersonalDgonzalez(teleDgonzalez, nomDgonzalez, apeDgonzalez, teleDgonzalez, usuDgonzalez, contraDgonzalez, tipDgonzalez);
+            
+            if (ConexionDgonzalez.registrarPersonalDgonzalez(pm)) {
+                ConexionDgonzalez.cerrarConexionDgonzalez();
+                JOptionPane.showMessageDialog(this, "Error en la acción de registro. Inténtelo más tarde o póngase\n" +
+"en contacto con el administrador del sistema");
+                
+            } else {
+                JOptionPane.showMessageDialog(this, "Registro realizado correctamente");
+                ConexionDgonzalez.cerrarConexionDgonzalez();
+                LimpiaCampos();
+            }
+            
+           
+        }
+    
+    }
+    
+    public void LimpiaCampos(){
+        campoColegiado.setText("");
+        campoNombre.setText("");
+        campoApellidos.setText("");
+        campoTelefono.setText("");
+        campoUsuario.setText("");
+        campoContraseña.setText("");
+        comboTipo.setSelectedIndex(0);
+    }
+
 }
