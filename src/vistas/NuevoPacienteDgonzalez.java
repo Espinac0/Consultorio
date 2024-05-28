@@ -16,6 +16,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.swing.JOptionPane;
 import modelo.PacienteDgonzalez;
 import utilidades.UtilidadesDgonzalez;
+import static vistas.EnfermeriaDgonzalez.DniPacienteEnfermeriaDgonzalez;
 import static vistas.MedicoDgonzalez.DniPacienteDgonzalez;
 
 /**
@@ -32,6 +33,7 @@ public class NuevoPacienteDgonzalez extends javax.swing.JDialog {
         initComponents();
         ConexionDgonzalez.cargasComboCpDgonzalez(comboPostal);
         campoDni.setText(DniPacienteDgonzalez);
+        campoDni.setText(DniPacienteEnfermeriaDgonzalez);
 
     }
 
@@ -137,7 +139,7 @@ public class NuevoPacienteDgonzalez extends javax.swing.JDialog {
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Nombre");
 
-        campoNombre.setName("No bre"); // NOI18N
+        campoNombre.setName("Nombre"); // NOI18N
 
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Apellidos");
@@ -150,7 +152,7 @@ public class NuevoPacienteDgonzalez extends javax.swing.JDialog {
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Teléfono");
 
-        campoTelefono.setName("telefono"); // NOI18N
+        campoTelefono.setName("Teléfono"); // NOI18N
 
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Email");

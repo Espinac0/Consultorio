@@ -135,21 +135,25 @@ public class PacientesDgonzalezz extends javax.swing.JDialog {
         jLabel8.setText("Nombre");
 
         campoNombre.setEnabled(false);
+        campoNombre.setName("Nombre"); // NOI18N
 
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Apellidos");
 
         campoApellidos.setEnabled(false);
+        campoApellidos.setName("Apellidos"); // NOI18N
 
         Teléfono.setForeground(new java.awt.Color(255, 255, 255));
         Teléfono.setText("Teléfono");
 
         campoTelefono.setEnabled(false);
+        campoTelefono.setName("Teléfono"); // NOI18N
 
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("CP");
 
         comboCP.setEnabled(false);
+        comboCP.setName("CP"); // NOI18N
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -208,6 +212,7 @@ public class PacientesDgonzalezz extends javax.swing.JDialog {
         );
 
         botonActualizar.setText("Actualizar");
+        botonActualizar.setEnabled(false);
         botonActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonActualizarActionPerformed(evt);
@@ -292,7 +297,8 @@ public class PacientesDgonzalezz extends javax.swing.JDialog {
         campoApellidos.setEnabled(true);
         campoTelefono.setEnabled(true);
         comboCP.setEnabled(true);
-        
+        botonActualizar.setEnabled(true);
+
     }//GEN-LAST:event_tablaPacienteMouseClicked
 
     private void botonActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActualizarActionPerformed
@@ -303,6 +309,8 @@ public class PacientesDgonzalezz extends javax.swing.JDialog {
             modelo.setRowCount(0);
             ConexionDgonzalez.cargaTablaPacientesDgonzalez(modelo);
             ConexionDgonzalez.cerrarConexionDgonzalez();
+
+            botonActualizar.setEnabled(false);
         } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException ex) {
             Logger.getLogger(PacientesDgonzalezz.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -381,11 +389,11 @@ public class PacientesDgonzalezz extends javax.swing.JDialog {
     private javax.swing.JTable tablaPaciente;
     // End of variables declaration//GEN-END:variables
 
-    String dniDgonzalez , nomDgonzalez, apeDgonzalez;
+    String dniDgonzalez, nomDgonzalez, apeDgonzalez;
     int telDgonzalez, cpDgonzalez;
-    
-    public void actualizarPacienteDgonzalez() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException{
-      if (UtilidadesDgonzalez.compruebaVacioDgonzalez(campoNombre)) {
+
+    public void actualizarPacienteDgonzalez() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
+        if (UtilidadesDgonzalez.compruebaVacioDgonzalez(campoNombre)) {
             UtilidadesDgonzalez.lanzaAlertaVacioDgonzalez(campoNombre);
         } else if (UtilidadesDgonzalez.compruebaVacioDgonzalez(campoApellidos)) {
             UtilidadesDgonzalez.lanzaAlertaVacioDgonzalez(campoApellidos);
@@ -393,32 +401,42 @@ public class PacientesDgonzalezz extends javax.swing.JDialog {
             UtilidadesDgonzalez.lanzaAlertaVacioDgonzalez(campoTelefono);
         } else if (UtilidadesDgonzalez.formatoTlf(campoTelefono)) {
             UtilidadesDgonzalez.lanzaAlertaFormatoTlf(this, campoTelefono);
-        }  else if (UtilidadesDgonzalez.formatoEmailCorrecto(campoApellidos)) {
+        } else if (UtilidadesDgonzalez.formatoEmailCorrecto(campoApellidos)) {
             UtilidadesDgonzalez.lanzaAlertaEmail(this, campoApellidos);
         } else if (UtilidadesDgonzalez.comboNoSeleccionado(comboCP)) {
             UtilidadesDgonzalez.alertaComboNoSeleccioando(this, comboCP);
-        }  else {
-            
-            dniDgonzalez =campoDNI.getText();
+        } else {
+
+            dniDgonzalez = campoDNI.getText();
             nomDgonzalez = campoNombre.getText();
             apeDgonzalez = campoApellidos.getText();
             telDgonzalez = Integer.parseInt(campoTelefono.getText());
             cpDgonzalez = Integer.parseInt(comboCP.getSelectedItem().toString());
-            
+
             PacienteDgonzalez pd = new PacienteDgonzalez(nomDgonzalez, apeDgonzalez, telDgonzalez, cpDgonzalez);
-            
+
             ConexionDgonzalez.conectarDgonzalez();
 
-            if (ConexionDgonzalez.actualizarPacienteDgonzalez(pd , dniDgonzalez)) {
+            if (ConexionDgonzalez.actualizarPacienteDgonzalez(pd, dniDgonzalez)) {
                 ConexionDgonzalez.cerrarConexionDgonzalez();
-                JOptionPane.showMessageDialog(this, "Paciente actualizado correctamente");
+                JOptionPane.showMessageDialog(this, "Datos del paciente actualizados\n"
+                        + "correctamente");
+                campoDNI.setText("");
+                campoNombre.setText("");
+                campoApellidos.setText("");
+                campoTelefono.setText("");
+                comboCP.setSelectedItem(0);
+                campoNombre.setEnabled(false);
+                campoApellidos.setEnabled(false);
+                campoTelefono.setEnabled(false);
+                comboCP.setEnabled(false);
             } else {
-                JOptionPane.showMessageDialog(this, "Paciente actualizado correctamente");
+                JOptionPane.showMessageDialog(this, "Error en la actualización del paciente. Inténtelo más tarde o\n"
+                        + "póngase en contacto con el administrador del sistema");
                 this.dispose();
             }
-            
+
         }
     }
-    
 
 }

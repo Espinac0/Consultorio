@@ -69,7 +69,7 @@ public class EnfermeriaDgonzalez extends javax.swing.JFrame {
         tablaConsulta = new javax.swing.JTable();
         botonTabla = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -220,7 +220,11 @@ public class EnfermeriaDgonzalez extends javax.swing.JFrame {
                 "FECHA", "MÁXIMA", "MÍNIMA", "GLUCOSA", "PESO"
             }
         ));
-        tablaConsulta.setEnabled(false);
+        tablaConsulta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaConsultaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaConsulta);
 
         botonTabla.setText("Actualizar Tabla");
@@ -297,6 +301,7 @@ public class EnfermeriaDgonzalez extends javax.swing.JFrame {
 
     private void botonBuscaPacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscaPacActionPerformed
     try {
+        DniPacienteEnfermeriaDgonzalez = campoDni.getText();
             comprobarDniDgonzalez();
             DefaultTableModel modelo = (DefaultTableModel) tablaConsulta.getModel();
         ConexionDgonzalez.conectarDgonzalez();
@@ -332,6 +337,10 @@ public class EnfermeriaDgonzalez extends javax.swing.JFrame {
             Logger.getLogger(MedicoDgonzalez.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_botonTablaActionPerformed
+
+    private void tablaConsultaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaConsultaMouseClicked
+     datosFilaDgonzalez();
+    }//GEN-LAST:event_tablaConsultaMouseClicked
 
     /**
      * @param args the command line arguments
@@ -416,7 +425,7 @@ public void comprobarDniDgonzalez() throws InvalidKeyException, NoSuchAlgorithmE
             // Si no esta registrado el DNI.
             JOptionPane.showMessageDialog(this, "No existe paciente con este DNI\n" +
             "a continuación se abrira la ventana para crearlo.");
-            PacientesDgonzalezz np = new PacientesDgonzalezz(this, true);
+            NuevoPacienteDgonzalez np = new NuevoPacienteDgonzalez(this, true);
             np.setVisible(true);
             
             }
@@ -433,5 +442,26 @@ public void comprobarDniDgonzalez() throws InvalidKeyException, NoSuchAlgorithmE
         }
     }
 }
+
+private void datosFilaDgonzalez() {
+
+        String contenido = "FECHA DE CONSULTA: " + String.valueOf(tablaConsulta.getValueAt(tablaConsulta.getSelectedRow(), 0));
+        contenido += "\n\nMÁXIMA:\n " + String.valueOf(tablaConsulta.getValueAt(tablaConsulta.getSelectedRow(), 1));
+        contenido += "\n\nMÍNIMA:\n " + String.valueOf(tablaConsulta.getValueAt(tablaConsulta.getSelectedRow(), 2));
+        contenido += "\n\nGLUCOSA:\n " + String.valueOf(tablaConsulta.getValueAt(tablaConsulta.getSelectedRow(), 3));
+        contenido += "\n\nPESO:\n " + String.valueOf(tablaConsulta.getValueAt(tablaConsulta.getSelectedRow(), 4));
+
+        JTextArea t = new JTextArea(20, 60);
+        t.setText(contenido);
+        t.setEditable(false);
+        t.setLineWrap(true);
+        t.setFocusable(false);
+        t.setAutoscrolls(true);
+        t.setMargin(new Insets(10, 10, 10, 10));
+
+        JOptionPane.showMessageDialog(this, new JScrollPane(t), "INFORME", 1);
+
+    }
+
 
 }

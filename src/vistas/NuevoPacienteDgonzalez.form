@@ -344,7 +344,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="campoNombre">
               <Properties>
-                <Property name="name" type="java.lang.String" value="No bre" noResource="true"/>
+                <Property name="name" type="java.lang.String" value="Nombre" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel8">
@@ -378,7 +378,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="campoTelefono">
               <Properties>
-                <Property name="name" type="java.lang.String" value="telefono" noResource="true"/>
+                <Property name="name" type="java.lang.String" value="Tel&#xe9;fono" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel11">

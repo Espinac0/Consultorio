@@ -43,6 +43,8 @@ public class MenuPrincipalDgonzalez extends javax.swing.JFrame {
            ConexionDgonzalez.recuperaCitasEnfermeriaDgonzalez(modelo);
        } else if (tipoUsuario.equals("ADMIN")) {
            botonPersonal.setEnabled(true);
+           LabelFacultativo.setText("Administrador: " + (LoginDgonzalez.usuarioLogadoDgonzalez[0]));
+           LabelNumeroCol.setText("" );    
        }
     }
 
